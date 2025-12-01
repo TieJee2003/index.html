@@ -171,7 +171,9 @@ var people = [
    place:"Mons (Bergen)",
    years:"ca 890–932",
    lat:50.45, lon:3.95,
-   note:"Graaf van Bergen en Valenciennes."},
+   note:"Graaf van Bergen en Valenciennes.",
+   category:"merovingians"
+},
 
   {name:"Amaury I de Valenciennes",
    place:"Valenciennes (Frankrijk)",
@@ -450,6 +452,121 @@ var people = [
    years:"ca 1365–ca 1447",
    lat:50.72, lon:2.26,
    note:"Bekend als 'la Gentienne'; schakel tussen Pipenpoy en Peschart."},
+
+// === MEROVINGERS & FRANKEN – VROEGE FRANKISCHE LIJN ===
+{
+  name:"Merovech (Meroveus)",
+  place:"Tournai / Noord-Frankrijk",
+  years:"ca 411–458",
+  lat:50.61, lon:3.39,
+  note:"Legendarische stamvader van de Merovingische dynastie.",
+  category:"merovingians"
+},
+{
+  name:"Childerik I",
+  place:"Tournai",
+  years:"ca 440–481",
+  lat:50.61, lon:3.39,
+  note:"Frankische koning van de Salische Franken; vader van Clovis I.",
+  category:"merovingians"
+},
+{
+  name:"Clovis I",
+  place:"Soissons / Parijs",
+  years:"ca 466–511",
+  lat:49.38, lon:3.32,
+  note:"Eerste koning die het grootste deel van Gallië onder zich verenigt.",
+  category:"merovingians"
+},
+{
+  name:"Clotilde van Bourgondië",
+  place:"Bourgondië / Parijs",
+  years:"ca 474–545",
+  lat:46.78, lon:4.85,
+  note:"Koningin; echtgenote van Clovis I; christelijke invloed op het Frankische hof.",
+  category:"merovingians"
+},
+{
+  name:"Chlothar I",
+  place:"Soissons / Noord-Frankrijk",
+  years:"ca 497–561",
+  lat:49.38, lon:3.32,
+  note:"Zoon van Clovis I; verdeelt en herenigt delen van het Frankische rijk.",
+  category:"merovingians"
+},
+{
+  name:"Audofleda",
+  place:"Noord-Frankrijk / Italië",
+  years:"ca 470–523",
+  lat:45.44, lon:10.99,
+  note:"Frankische prinses; gehuwd met Theodorik de Grote (Ostrogoten).",
+  category:"merovingians"
+},
+{
+  name:"Amalasuntha",
+  place:"Ravenna (Italië)",
+  years:"ca 495–535",
+  lat:44.42, lon:12.20,
+  note:"Dochter van Theodorik; regentes van het Ostrogotische rijk.",
+  category:"merovingians"
+},
+{
+  name:"Brunulphe II",
+  place:"Ardennengouw / Maasgebied",
+  years:"ca 520–580",
+  lat:49.75, lon:6.07,
+  note:"Frankisch edelman in de Ardennen; schakel tussen hofadel en regionale adel.",
+  category:"merovingians"
+},
+{
+  name:"Alberic (Albericus) van de Ardennen",
+  place:"Ardennengouw",
+  years:"ca 550–610",
+  lat:49.75, lon:6.07,
+  note:"Nakomer van Brunulphe; bouwt de positie in Maas- en Ardennengouw verder uit.",
+  category:"merovingians"
+},
+{
+  name:"Walter I van Maasgau",
+  place:"Maasstreek (Lotharingen)",
+  years:"ca 580–640",
+  lat:50.78, lon:5.70,
+  note:"Vroege aristocratische figuur in de Maasstreek.",
+  category:"merovingians"
+},
+{
+  name:"Walter II van Maasgau",
+  place:"Maasstreek",
+  years:"ca 610–670",
+  lat:50.78, lon:5.70,
+  note:"Voortzetting van de Maaslandse adellijke lijn.",
+  category:"merovingians"
+},
+{
+  name:"Walter III van Maasgau",
+  place:"Maasstreek",
+  years:"ca 640–700",
+  lat:50.78, lon:5.70,
+  note:"Verankert de familie in het grensgebied van Austrasië.",
+  category:"merovingians"
+},
+{
+  name:"Alberon II (Alberon van de Ardennen)",
+  place:"Ardennengouw",
+  years:"ca 670–730",
+  lat:49.75, lon:6.07,
+  note:"Verbindt de Ardennense adel met latere Henegouwse lijnen.",
+  category:"merovingians"
+},
+{
+  name:"Alberada van Henegouwen",
+  place:"Henegouwen (regio Mons)",
+  years:"ca 700–760",
+  lat:50.45, lon:3.95,
+  note:"Vroeg adellijke vrouw; schakel naar de graven van Henegouwen (Reinier-lijn).",
+  category:"merovingians"
+},
+
 
    // VROEGE MIDDELEEUWEN – WESSEX & VLAANDEREN & WEST-FRANKISCHE RIJK
   {name:"Egbert ('Ecbert') 'de Grote' van Wessex",
@@ -1168,6 +1285,7 @@ var layerClann = L.markerClusterGroup();
 var layerModern = L.markerClusterGroup(); // NIEUW: moderne familie
 var layerNormandiers = L.markerClusterGroup();
 var layerVikingKings = L.markerClusterGroup(); // NIEUW: Deense & Zweedse vorsten
+var layerMerovingians = L.markerClusterGroup(); // NIEUW: Merovingers & Franken
 
 people.forEach(function(p) {
   var pClass = periodClass(p.years);
@@ -1209,6 +1327,10 @@ if (p.category === "vikingkings") {
   if (p.category === "normandiers") {
     layerNormandiers.addLayer(marker);
   }
+if (p.category === "merovingians") {
+  layerMerovingians.addLayer(marker);
+}
+
 });
 
 map.addLayer(layerAll);
@@ -1223,7 +1345,9 @@ L.control.layers(
     "Vikingkoningen (Zweden & Denemarken)": layerVikingKings, // NIEUW
     "Clann Néill": layerClann,
     "Moderne familie": layerModern,
-    "Normandiërs": layerNormandiers
+    "Normandiërs": layerNormandiers,
+    "Merovingers & Franken": layerMerovingians
+
   }
 ).addTo(map);
 
