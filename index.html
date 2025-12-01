@@ -837,6 +837,7 @@ var people = [
    note:"Viking-leider, eerste hertog van Normandië; stamvader van de Normandische lijn.",
    category:"vikings"},
 
+
    // VIKINGEN / NOORMANNEN
   {name:"Poppa van Bayeux",
    place:"Bayeux",
@@ -845,6 +846,111 @@ var people = [
    note:"Tweede echtgenote van Rollo (Robert van Normandië)",
    category:"normandiers"},
 
+   // === ZWEEDSE & DEENSE VIKINGKONINGEN – HARALD BLAUWTAND DYNATIE ===
+{
+  name:"Sigurd Hring",
+  place:"Uppsala (Zweden)",
+  years:"ca 750–812",
+  lat:59.86, lon:17.64,
+  note:"Legendarische Zweedse/Daanse koning, vader van Ragnar Lodbrok.",
+  category:"vikingkings"
+},
+{
+  name:"Ragnar Lodbrok",
+  place:"Uppsala (Zweden)",
+  years:"ca 760–845",
+  lat:59.86, lon:17.64,
+  note:"Vikingheld; koning van de Svea; centrale figuur in de saga’s.",
+  category:"vikingkings"
+},
+{
+  name:"Sigurd 'Snake-in-the-Eye' Ragnarsson",
+  place:"Sjælland (Denemarken)",
+  years:"ca 770–ca 890",
+  lat:55.62, lon:12.08,
+  note:"Zoon van Ragnar Lodbrok; Deens heerser.",
+  category:"vikingkings"
+},
+{
+  name:"Harthacnut I (Hardeknud)",
+  place:"Sjælland (Denemarken)",
+  years:"ca 810–916",
+  lat:55.62, lon:12.08,
+  note:"Vroege Deense koning; overgang naar historische vorsten.",
+  category:"vikingkings"
+},
+{
+  name:"Gorm de Oude",
+  place:"Jelling (Denemarken)",
+  years:"ca 900–958",
+  lat:55.76, lon:9.42,
+  note:"Eerste historisch zekere koning van Denemarken; echt historische voorouder.",
+  category:"vikingkings"
+},
+{
+  name:"Harald 'Blauwtand' Gormsson",
+  place:"Jelling (Denemarken)",
+  years:"ca 935–985",
+  lat:55.76, lon:9.42,
+  note:"Koning van Denemarken en Noorwegen; naamgever van 'Bluetooth'.",
+  category:"vikingkings"
+},
+{
+  name:"Sigrid Haraldsdotter (Sigrid Storråda)",
+  place:"Sigtuna / Uppsala (Zweden)",
+  years:"ca 970–1014",
+  lat:59.62, lon:17.85,
+  note:"Dochter van Harald Blauwtand, huwelijksschakel met Falaise-lijn.",
+  category:"vikingkings"
+},
+{
+  name:"Fulbert de Falaise",
+  place:"Falaise (Normandië)",
+  years:"ca 980–1045",
+  lat:48.89, lon:-0.20,
+  note:"Vader van Herleva; grootvader van Willem de Veroveraar.",
+  category:"vikingkings"
+},
+{
+  name:"Herleva (Arlette) de Falaise",
+  place:"Falaise (Normandië)",
+  years:"ca 1003–1050",
+  lat:48.89, lon:-0.20,
+  note:"Moeder van Willem de Veroveraar; verbindt Deense en Normandische lijnen.",
+  category:"vikingkings"
+},
+{
+  name:"Willem de Veroveraar (William the Conqueror)",
+  place:"Falaise (Normandië)",
+  years:"1028–1087",
+  lat:48.89, lon:-0.20,
+  note:"Hertog van Normandië, koning van Engeland; kleinzoon van Harald Blauwtand via Sigrid.",
+  category:"vikingkings"
+},
+{
+  name:"Adela van Normandië",
+  place:"Normandië",
+  years:"ca 1062–1137",
+  lat:49.00, lon:1.00,
+  note:"Dochter van Willem de Veroveraar; moeder van koning Stephen.",
+  category:"vikingkings"
+},
+{
+  name:"Stefanus van Engeland",
+  place:"Blois / Londen",
+  years:"ca 1092–1154",
+  lat:51.50, lon:-0.12,
+  note:"Koning van Engeland (1135–1154), kleinzoon van Willem; link met jouw lijn.",
+  category:"vikingkings"
+},
+{
+  name:"Maria de Bois-Boulogne",
+  place:"Boulogne / Engeland",
+  years:"1125–1182",
+  lat:50.73, lon:1.61,
+  note:"Dochter van Stephen van Engeland; tak naar Vlaamse en Brabantse adel.",
+  category:"vikingkings"
+},
 
    // --- VIKINGEN: ROLLO-LIJN ---
 
@@ -965,7 +1071,7 @@ var people = [
    note:"Schakel naar de familie De Saer",
    category:"modern"},
 
-{name:"Pieter Jozef De Saer",
+  {name:"Pieter Jozef De Saer",
    place:"Boom / omgeving",
    years:"1898–1983",
    lat:51.0875, lon:4.36806,
@@ -1061,6 +1167,7 @@ var layerVikings = L.markerClusterGroup();
 var layerClann = L.markerClusterGroup();
 var layerModern = L.markerClusterGroup(); // NIEUW: moderne familie
 var layerNormandiers = L.markerClusterGroup();
+var layerVikingKings = L.markerClusterGroup(); // NIEUW: Deense & Zweedse vorsten
 
 people.forEach(function(p) {
   var pClass = periodClass(p.years);
@@ -1090,6 +1197,9 @@ people.forEach(function(p) {
   if (p.category === "vikings") {
     layerVikings.addLayer(marker);
   }
+if (p.category === "vikingkings") {
+    layerVikingKings.addLayer(marker);
+  }
   if (p.category === "clann") {
     layerClann.addLayer(marker);
   }
@@ -1109,7 +1219,8 @@ L.control.layers(
   {
     "Alle personen": layerAll,
     "Keizers & Koningen": layerKings,
-    "Vikingen & Noormannen": layerVikings,
+    "Vikingen & Noormannen (Rollo-lijn)": layerVikings,
+    "Vikingkoningen (Zweden & Denemarken)": layerVikingKings, // NIEUW
     "Clann Néill": layerClann,
     "Moderne familie": layerModern,
     "Normandiërs": layerNormandiers
