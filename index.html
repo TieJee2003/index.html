@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Familiekaart Seeldraeyers – De Belder (uitgebreid + lagen)</title>
+
+  <!-- Leaflet basis -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Leaflet MarkerCluster plugin -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+  <style>
+  #familyButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 500 !important; /* lager dan leaflet UI */
+  }
+
+    body { margin: 0; font-family: Georgia, serif; }
+    #map { height: 100vh; width: 100vw; }
+
+    .legend {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .legend span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 5px;
+      border-radius: 50%;
+    }
+
+    /* Kleine ronde marker-iconen als HTML-divs */
+    .circle-icon {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+    .period-early   { background:#1f77b4; } /* tot 1000 */
+    .period-high    { background:#2ca02c; } /* 1000–1300 */
+    .period-modern  { background:#ff7f0e; } /* 1300–1800 */
+    .period-late    { background:#d62728; } /* na 1800 */
+  </style>
+</head>
+<body>
+
+<!-- Zwevende knop met familiewapen -->
+<div id="familyButton" style="
+  position: absolute;
+  top: 80px;
+  left: 15px;
+  z-index: 3000; /* zorgt dat hij boven ALLES staat */
+">
+  <a href="https://gw.geneanet.org/opsinjoorke_w" 
+     target="_blank" 
+     title="Bekijk onze stamboom">
+     
+    <img 
+      src="https://raw.githubusercontent.com/TieJee2003/index.html/main/Wapenschild_24_11_2%20kopie%202.png"
+      style="
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        cursor: pointer;
+      "
+    >
+  </a>
+</div>
+
+<div id="map"></div>
+
+<div class="legend">
+  <div><span style="background:#1f77b4;"></span>Vroege middeleeuwen (tot 1000)</div>
+  <div><span style="background:#2ca02c;"></span>Hoge middeleeuwen (1000–1300)</div>
+  <div><span style="background:#ff7f0e;"></span>Nieuwe tijd (1300–1800)</div>
+  <div><span style="background:#d62728;"></span>Moderne tijd (na 1800)</div>
+</div>
+
+<script>
+var map = L.map('map').setView([50.85, 4.35], 5);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap'
+}).addTo(map);
+
+/*
+  Personen zijn gebaseerd op de gegevens uit je genealogie.
+  Locaties zijn benaderd met moderne steden/regio’s.
+*/
+
+var people = [
+  // VROEGE MIDDELEEUWEN – CLANN NÉILL – IERLAND
+  {name:"Niall Noígíallach",
+   place:"Tara (Ierland)",
+   years:"ca 370–452",
+   lat:53.58, lon:-6.61,
+   note:"Keltische hoge koning; Clann Néill-voorouder in de vroege lijn.",
+   category:"clann"},
+
+  // CLANN NÉILL → HENEGOUWEN → FRANKRIJK → BELGIË
+  {name:"Eoghan van Ulster",
+   place:"Ulster (Ierland)",
+   years:"ca 396–465",
+   lat:54.60, lon:-6.70,
+   note:"Zoon van Niall; stamvader van de Eóganachta.",
+   category:"clann"},
+
+  {name:"Gania van Ierland",
+   place:"Ierland",
+   years:"ca 420–",
+   lat:53.00, lon:-7.00,
+   note:"Vroege Clann Néill-afstammeling.",
+   category:"clann"},
+
+  {name:"Gania de Cornouailles",
+   place:"Cornwall (Engeland)",
+   years:"ca 440–510",
+   lat:50.27, lon:-5.05,
+   note:"Overgang van Ierland naar Britannia.",
+   category:"clann"},
+
+  {name:"Sigiswald de Thérouanne",
+   place:"Thérouanne (Frankrijk)",
+   years:"†531",
+   lat:50.64, lon:2.25,
+   note:"Vroege Frankische fase van de lijn."},
+
+  {name:"Ansbert de Thérouanne",
+   place:"Thérouanne (Frankrijk)",
+   years:"†566",
+   lat:50.64, lon:2.25,
+   note:"Verbinding met Merovingisch gebied."},
+
+  {name:"Sancha de Metz",
+   place:"Metz (Frankrijk)",
+   years:"ca 530–",
+   lat:49.12, lon:6.18,
+   note:"Overgang naar Austrasië."},
+
+  {name:"Clothilde van Keulen",
+   place:"Keulen (Duitsland)",
+   years:"ca 565–",
+   lat:50.94, lon:6.96,
+   note:"Rijnlandse hoog-adellijke verbinding."},
+
+  {name:"Alberic van Henegouwen",
+   place:"Henegouwen",
+   years:"†",
+   lat:50.45, lon:3.95,
+   note:"Begin van de Henegouwse tak."},
+
+  {name:"Reinier II van Henegouwen",
+   place:"Mons (Bergen)",
+   years:"ca 890–932",
+   lat:50.45, lon:3.95,
+   note:"Graaf van Bergen en Valenciennes."},
+
+  {name:"Amaury I de Valenciennes",
+   place:"Valenciennes (Frankrijk)",
+   years:"910–993",
+   lat:50.36, lon:3.52,
+   note:"Belangrijke schakel naar Montfort."},
+
+  {name:"Simon I de Montfort",
+   place:"Montfort-l’Amaury",
+   years:"1025–1087",
+   lat:48.78, lon:1.81,
+   note:"Grote Franse ridderlijke tak."},
+
+  {name:"Agnes de Montfort",
+   place:"Île-de-France",
+   years:"ca 1123–1181",
+   lat:48.80, lon:2.25,
+   note:"Overgang naar Meulan."},
+
+  {name:"Amaury de Meulan",
+   place:"Meulan-en-Yvelines",
+   years:"1149–1204",
+   lat:49.00, lon:1.92,
+   note:"Normandisch-Franse adel."},
+
+  {name:"Pierre I des Essarts",
+   place:"Normandië",
+   years:"†1349",
+   lat:49.00, lon:1.00,
+   note:"Late middeleeuwse fase."},
+
+  {name:"Jeanne Peschart",
+   place:"Noord-Frankrijk",
+   years:"ca 1402–1468",
+   lat:50.50, lon:2.50,
+   note:"Bekend uit onze genealogische lijn; schakel in de lijn Niall → Theo en Jacqueline."},
+
+  // --- KAROLINGISCHE LIJN: PEPIJN → KAREL DE GROTE → THEO ---
+
+  {name:"Pepijn III 'de Korte' der Franken",
+   place:"Frankische Rijk (regio Aken)",
+   years:"ca 714–768",
+   lat:50.78, lon:6.08,
+   note:"Koning der Franken; vader van Karel de Grote.",
+   category:"kings"},
+
+  {name:"Bertrada II 'Bertha met de Grote Voet' van Laon",
+   place:"Laon",
+   years:"720–783",
+   lat:49.56, lon:3.62,
+   note:"Frankische edelvrouw; echtgenote van Pepijn de Korte."},
+
+  {name:"Karloman I Martel",
+   place:"Frankische Rijk",
+   years:"751–771",
+   lat:49.0, lon:6.0,
+   note:"Zoon van Pepijn de Korte; broer van Karel de Grote.",
+   category:"kings"},
+
+  {name:"Lodewijk I 'de Vrome' der Franken",
+   place:"Aken / Frankfurt",
+   years:"778–840",
+   lat:50.11, lon:8.68,
+   note:"Zoon van Karel de Grote; koning en keizer.",
+   category:"kings"},
+
+  {name:"Adelaide 'Heilige Ida' van Herzfeld",
+   place:"Herzfeld (Westfalen)",
+   years:"†825",
+   lat:51.69, lon:7.91,
+   note:"Heilige en Frankische edelvrouw; verbonden met de Karolingische hofkringen."},
+
+  {name:"Gisela, dochter van Lodewijk de Vrome",
+   place:"Frankische Rijk",
+   years:"ca 821–874",
+   lat:48.0, lon:7.0,
+   note:"Karolingische prinses; schakel in de lijn Pepijn → Theo."},
+
+  {name:"Haduwey (Hedwig) van Herford",
+   place:"Herford (Saksen)",
+   years:"811–887",
+   lat:52.12, lon:8.67,
+   note:"Saksische edelvrouw; verbindt Saksen met de Karolingische lijn."},
+
+  {name:"Heilwig (Heilwide) van Friuli",
+   place:"Friuli (Italië)",
+   years:"†895",
+   lat:46.09, lon:13.43,
+   note:"Adel uit Friuli; brengt Italiaanse connectie in de Karolingische lijn."},
+
+  {name:"Irminhild van Saksen-Billung",
+   place:"Saksen",
+   years:"835–",
+   lat:52.13, lon:11.62,
+   note:"Vroege vertegenwoordiger van het huis Billung."},
+
+  {name:"Rogier II de Laon",
+   place:"Laon",
+   years:"890–ca 967",
+   lat:49.56, lon:3.62,
+   note:"Edelman in Laon; verbindt Karolingische hofkringen met Noord-Frankrijk."},
+
+  {name:"Egbert Wichmanszn van Hamaland",
+   place:"Hamaland (Gelderland)",
+   years:"ca 880–ca 945",
+   lat:52.0, lon:6.0,
+   note:"Heer in de regio Hamaland; brengt de lijn naar de Lage Landen."},
+
+  {name:"Adèle de Dammartin-en-Goële",
+   place:"Dammartin-en-Goële",
+   years:"ca 945–ca 970",
+   lat:49.05, lon:2.67,
+   note:"Noord-Franse edelvrouw; schakel in je Karolingische lijn."},
+
+  {name:"Herman I van Saksen-Billung",
+   place:"Saksen",
+   years:"900/912–973",
+   lat:52.13, lon:11.62,
+   note:"Hertog van Saksen; belangrijke Billungse voorouder."},
+
+  {name:"Bernard I van Saksen",
+   place:"Saksen",
+   years:"ca 940–1011",
+   lat:52.13, lon:11.62,
+   note:"Zoon van Herman I; zet de Billungse lijn voort."},
+
+  {name:"Bernhard II van Saksen",
+   place:"Saksen",
+   years:"ca 990–1059",
+   lat:52.13, lon:11.62,
+   note:"Billungse hertog; sluit aan bij Ida van Saksen-Billung."},
+
+  {name:"Manasses I 'de Kale' de Rethel (de Dammartin)",
+   place:"Rethel / Dammartin",
+   years:"†1037",
+   lat:49.51, lon:4.37,
+   note:"Graaf; vervlecht Rethel, Dammartin en de Karolingische nasleep."},
+
+  {name:"Hilduinus II de Breteuil",
+   place:"Breteuil",
+   years:"975–1060",
+   lat:49.73, lon:2.29,
+   note:"Voortzetting van de Noord-Franse adel; reeds aanwezig in andere lijnen."},
+
+  {name:"Hilduinus III de Montdidier-Roucy",
+   place:"Montdidier / Roucy",
+   years:"†1032",
+   lat:49.65, lon:2.57,
+   note:"Edelman in Picardië; vader van Hilduinus IV en Marguerite de Roucy."},
+
+  {name:"Renaud I de Breteuil (de Creil)",
+   place:"Breteuil / Creil",
+   years:"999–1048",
+   lat:49.26, lon:2.48,
+   note:"Noord-Franse graaf; verbonden met de Ramerupt-/Clermont-lijnen."},
+
+  {name:"Hilduinus IV 'de Ramerupt' de Ponthieu",
+   place:"Ponthieu / Montdidier",
+   years:"1010–1063",
+   lat:50.11, lon:1.83,
+   note:"‘de Ramerupt’; schakel tussen Ponthieu, Ramerupt en Clermont."},
+
+  {name:"Marguerite de Roucy (de Ramerupt)",
+   place:"Ramerupt / Roucy",
+   years:"1045–1102",
+   lat:49.43, lon:4.07,
+   note:"Vereenigt de huizen Roucy en Ramerupt."},
+
+  {name:"Adelheid (Basilie) de Rethel (de Dammartin)",
+   place:"Rethel",
+   years:"†1078",
+   lat:49.51, lon:4.37,
+   note:"Rethelse edelvrouw; verbindt met Clermont en Namen."},
+
+  {name:"Adelheidis (Adélaide) de Gournay",
+   place:"Gournay-sur-Marne / Oise",
+   years:"1054–1099",
+   lat:49.29, lon:1.90,
+   note:"Edelvrouw uit de streek rond de Oise; echtgenote in de Clermont-lijn."},
+
+  {name:"Godfried I van Namen",
+   place:"Namen",
+   years:"1080–1139",
+   lat:50.47, lon:4.87,
+   note:"Graaf van Namen; voorvader van Hendrik I 'de Blinde'."},
+
+  {name:"Béatrix (Emma) de Clermont",
+   place:"Clermont-en-Beauvaisis",
+   years:"1077–1121",
+   lat:49.38, lon:2.41,
+   note:"Dochter van Renaud I de Clermont; sluit aan op de Naamse lijn."},
+
+  {name:"Mathieu I de Beaumont-sur-Oise",
+   place:"Beaumont-sur-Oise",
+   years:"ca 1075–1155",
+   lat:49.14, lon:2.29,
+   note:"Heer van Beaumont; begin van de Beaumont-lijn in je stamboom."},
+
+  {name:"Mathieu II de Beaumont-sur-Oise",
+   place:"Beaumont-sur-Oise",
+   years:"ca 1114–1177",
+   lat:49.14, lon:2.29,
+   note:"Zoon van Mathieu I; verbindt met Isabeau de Meulan."},
+
+  {name:"Adèle de Luzarche",
+   place:"Luzarches",
+   years:"ca 1163–ca 1200",
+   lat:49.11, lon:2.42,
+   note:"Noord-Franse edelvrouw; tak naar Meulan."},
+
+  {name:"Isabeau de Meulan",
+   place:"Meulan-en-Yvelines",
+   years:"ca 1192–1230",
+   lat:49.00, lon:1.92,
+   note:"Verbindt Beaumont en Meulan in de lijn naar des Essarts."},
+
+  {name:"Hendrik I 'de Blinde' van Namen",
+   place:"Namen",
+   years:"ca 1112–1196",
+   lat:50.47, lon:4.87,
+   note:"Graaf van Namen; vader van Ermesinde van Namen en Luxemburg.",
+   category:"kings"},
+
+  {name:"Ermesinde van Namen en Luxemburg",
+   place:"Namen & Luxemburg",
+   years:"1186–1247",
+   lat:49.61, lon:6.13,
+   note:"Verenigt de domeinen Namen en Luxemburg."},
+
+  {name:"Hendrik V (II) 'de Blonde' van Luxemburg-Laroche",
+   place:"Luxemburg / La Roche",
+   years:"1221–1281",
+   lat:49.80, lon:5.35,
+   note:"Graaf van Luxemburg en La Roche; versterkt de Luxemburgse macht.",
+   category:"kings"},
+
+  {name:"Hendrik VI van Luxemburg-Laroche",
+   place:"Luxemburg",
+   years:"1252–1288",
+   lat:49.61, lon:6.13,
+   note:"Zoon van Hendrik V; sneuvelt bij de slag bij Worringen.",
+   category:"kings"},
+
+  {name:"Felicitas van Luxemburg-Laroche",
+   place:"Luxemburg / Brabant",
+   years:"†1336",
+   lat:49.61, lon:6.13,
+   note:"Verbindt Luxemburg met Brabant (Gaasbeek)."},  
+
+  {name:"Catharina van Gaasbeek",
+   place:"Gaasbeek (Brabant)",
+   years:"ca 1285–",
+   lat:50.81, lon:4.17,
+   note:"Brabantse edelvrouw; schakel tussen Luxemburg en de Lage Landen."},
+
+  {name:"Jeanne des Essarts",
+   place:"Normandië / Île-de-France",
+   years:"ca 1285–",
+   lat:49.00, lon:1.00,
+   note:"Dochter van Pierre I des Essarts; verbindt des Essarts en Baillet."},
+
+  {name:"Jeanne 'la Baillette' Baillet",
+   place:"Île-de-France",
+   years:"1330–1367",
+   lat:48.80, lon:2.25,
+   note:"Bekend als 'la Baillette'; echtgenote in de Pipenpoy-lijn."},
+
+  {name:"Wouter II Pipenpoy",
+   place:"Brabant",
+   years:"1305–1371",
+   lat:50.85, lon:4.35,
+   note:"Brabantse edelman; verbindt Franse en Brabantse adel."},
+
+  {name:"Jeanne 'la Gentienne' Gentien",
+   place:"Noord-Frankrijk",
+   years:"ca 1365–ca 1447",
+   lat:50.72, lon:2.26,
+   note:"Bekend als 'la Gentienne'; schakel tussen Pipenpoy en Peschart."},
+
+   // VROEGE MIDDELEEUWEN – WESSEX & VLAANDEREN & WEST-FRANKISCHE RIJK
+  {name:"Egbert ('Ecbert') 'de Grote' van Wessex",
+   place:"Wessex (Engeland)",
+   years:"ca 770–839",
+   lat:51.0, lon:-1.3,
+   note:"Vroege Angelsaksische koning; voorouderlijn naar onze familie.",
+   category:"kings"},
+
+  {name:"Redburga der Franken",
+   place:"Frankische rijk (regio Reims)",
+   years:"768–839",
+   lat:49.26, lon:4.03,
+   note:"Frankische connectie in de vroege lijn."},
+
+  {name:"Aethelwulf van Wessex",
+   place:"Wessex (Engeland)",
+   years:"795–858",
+   lat:51.0, lon:-1.3,
+   note:"Zoon van Egbert, vader van Alfred de Grote.",
+   category:"kings"},
+
+  {name:"Osburga van het Eiland Wight",
+   place:"Isle of Wight",
+   years:"810–858",
+   lat:50.70, lon:-1.30,
+   note:"Eiland ten zuiden van Engeland, deel van de Wessex-dynastie."},
+
+  {name:"Alfred ('Aelfred') 'de Grote' van Wessex",
+   place:"Wessex (Engeland)",
+   years:"848/849–899",
+   lat:51.10, lon:-1.30,
+   note:"Beroemde Engelse koning; belangrijk in je voorouderreeks.",
+   category:"kings"},
+
+  {name:"Ethelswitha (Ealhswith) van Gainsborough (van de Gaini)",
+   place:"Gainsborough (Engeland)",
+   years:"ca 850–905",
+   lat:53.40, lon:-0.77,
+   note:"Verbindt Wessex met Mercia/Noord-Engeland."},
+
+  {name:"'Elfrida' (Ælfthryth) van Wessex",
+   place:"Wessex (Engeland)",
+   years:"†929",
+   lat:51.0, lon:-1.3,
+   note:"Dochter in de Wessex-dynastie die je naar Vlaanderen brengt."},
+
+  {name:"Boudewijn II 'de Kale' van Vlaanderen",
+   place:"Vlaanderen (regio Brugge)",
+   years:"ca 865–918",
+   lat:51.21, lon:3.22,
+   note:"Graaf van Vlaanderen; je lijn verplaatst zich naar de Lage Landen."},
+
+  {name:"Edward I 'de Oudere' van Wessex",
+   place:"Wessex (Engeland)",
+   years:"871/877–924",
+   lat:51.0, lon:-1.3,
+   note:"Zoon van Alfred de Grote; parallelle tak in je genealogie.",
+   category:"kings"},
+
+  {name:"Elflide (Aelflede) van Wiltshire (van Bernicie)",
+   place:"Wiltshire (Engeland)",
+   years:"ca 870–ca 915",
+   lat:51.07, lon:-1.80,
+   note:"Verankert de lijn in Zuid-Engeland."},
+
+  {name:"Adalolf (Adelulf Æthelwulf) de Boulogne",
+   place:"Boulogne-sur-Mer",
+   years:"893/899–933",
+   lat:50.73, lon:1.61,
+   note:"Verbindt Vlaanderen met het graafschap Boulogne."},
+
+  {name:"Mahaut (Mathilde) de Ponthieu (de Créquy)",
+   place:"Ponthieu / Abbeville",
+   years:"ca 885–954",
+   lat:50.11, lon:1.83,
+   note:"Vroege Noord-Franse adel in je lijn."},
+
+  {name:"Arnulf I 'de Grote' van Vlaanderen",
+   place:"Vlaanderen",
+   years:"ca 889–965",
+   lat:51.05, lon:3.72,
+   note:"Een van de machtigste graven van Vlaanderen in jouw stamboom."},
+
+  {name:"Adelheid (Aleidis) de Vermandois",
+   place:"Vermandois (regio Saint-Quentin)",
+   years:"915–960",
+   lat:49.85, lon:3.29,
+   note:"Voegt de graafschappen Vermandois en Vlaanderen samen."},
+
+  {name:"Eadygna (Eadgyfu Hedwig)",
+   place:"West-Frankische hofkringen",
+   years:"903–951",
+   lat:49.56, lon:3.62,
+   note:"Verbindt Engelse en West-Frankische vorstenhuizen."},
+
+   // --- KAROLINGEN: KAREL DE GROTE → THEO ---
+  {name:"Karel de Grote (Charlemagne)",
+   place:"Aken (Aix-la-Chapelle)",
+   years:"747–814",
+   lat:50.78, lon:6.08,
+   note:"Frankisch koning en keizer; centrale Karolingische voorouderfiguur.",
+   category:"kings"},
+
+  {name:"Karel III 'de Eenvoudige' van Frankrijk (West-Frankië)",
+   place:"Regio Laon / West-Frankrijk",
+   years:"879–929",
+   lat:49.56, lon:3.62,
+   note:"Karolingische koning; je lijn raakt hier de Karolingers.",
+   category:"kings"},
+
+  {name:"Maud de Gamaches",
+   place:"Gamaches (Normandië / Picardië)",
+   years:"ca 916–ca 960",
+   lat:49.96, lon:1.58,
+   note:"Regionale adel in Noord-Frankrijk."},
+
+  {name:"Guillaume I de Ponthieu d’Abbeville",
+   place:"Abbeville",
+   years:"915–980",
+   lat:50.11, lon:1.83,
+   note:"Vroege graven van Ponthieu in je stamlijn."},
+
+  {name:"Hildegard (Eldegarde) van Vlaanderen (d’Amiens)",
+   place:"Amiens",
+   years:"ca 938–990",
+   lat:49.89, lon:2.30,
+   note:"Verbindt Vlaanderen met Picardië."},
+
+  {name:"Dirk II van West-Frisia",
+   place:"West-Frisia (regio Holland / Kennemerland)",
+   years:"ca 932–988",
+   lat:52.40, lon:4.90,
+   note:"Vroeg graaf van Holland; link naar de latere Lage Landen."},
+
+  {name:"Lodewijk IV 'van Overzee' van Frankrijk",
+   place:"Regio Laon / Reims",
+   years:"920–954",
+   lat:49.26, lon:4.03,
+   note:"Keert 'overzee' terug uit Engeland; Karolingische koning in je lijn.",
+   category:"kings"},
+
+  {name:"Gerberga van Saksen",
+   place:"Saksen (regio Maagdenburg)",
+   years:"ca 913–984",
+   lat:52.13, lon:11.62,
+   note:"Ottoonse koninklijke verbinding in de stamboom."},
+
+  // OVERGANG NAAR LAGE LANDEN: NAMEN, LUXEMBURG, LOON, HOLLAND
+  {name:"Hilduinus I de Ponthieu d’Abbeville",
+   place:"Abbeville (Ponthieu)",
+   years:"936–1009",
+   lat:50.11, lon:1.83,
+   note:"Lokale heerser in Ponthieu; continuïteit van Noord-Franse lijn."},
+
+  {name:"Helissende 'la Pieuse' (Hersende) de Ramerupt",
+   place:"Ramerupt (Champagne)",
+   years:"936–988",
+   lat:48.55, lon:4.20,
+   note:"Champagnestreek in je voorouderketen."},
+
+  {name:"Arnulf I (Arnout) van Gent (van Holland)",
+   place:"Gent",
+   years:"ca 951–993",
+   lat:51.05, lon:3.72,
+   note:"Verbindt Vlaanderen met het latere graafschap Holland."},
+
+  {name:"Lutgardis (Luitgarde) van Luxemburg",
+   place:"Luxemburg",
+   years:"ca 953–1005",
+   lat:49.61, lon:6.13,
+   note:"Begin van de Luxemburgse tak."},
+
+  {name:"Karel V van Neder-Lotharingen",
+   place:"Regio Neder-Lotharingen (Brussel/Keulen)",
+   years:"953–992",
+   lat:50.85, lon:4.35,
+   note:"Belangrijke hertogelijke lijn in het Middenrijk."},
+
+  {name:"Hilduinus II de Breteuil",
+   place:"Breteuil (Normandië/Picardië)",
+   years:"975–1060",
+   lat:49.73, lon:2.29,
+   note:"Voortzetting van de Noord-Franse adel."},
+
+  {name:"Emmeline de Chartres",
+   place:"Chartres",
+   years:"974–1045",
+   lat:48.45, lon:1.49,
+   note:"Centre-regio van Frankrijk in je stamboom."},
+
+  {name:"Dirk III (Hierosolomyta) de Frise (van Oost-Friesland)",
+   place:"Oost-Friesland",
+   years:"980–1039",
+   lat:53.52, lon:7.27,
+   note:"'Hierosolomyta' verwijst naar een Jeruzalemvaarder."},
+
+  {name:"Oethilde (Othelhildis) van Saksen",
+   place:"Saksen",
+   years:"ca 985–1044",
+   lat:52.13, lon:11.62,
+   note:"Versterkt de Ottoonse banden in de familie."},
+
+  {name:"Ermengarde van Lotharingen",
+   place:"Lotharingen (Middenrijk)",
+   years:"ca 971–1012",
+   lat:49.75, lon:6.64,
+   note:"Verbinding tussen Lotharingse en Naamse lijn."},
+
+  {name:"Albert I van Namen",
+   place:"Namen",
+   years:"† na 990",
+   lat:50.47, lon:4.87,
+   note:"Begin van de Naamse graven in je lijn."},
+
+  {name:"Renaud I (aka Hugues) de Clermont",
+   place:"Clermont-en-Beauvaisis",
+   years:"1035–1102",
+   lat:49.38, lon:2.41,
+   note:"Clermont-tak in Noord-Frankrijk."},
+
+  {name:"Swanehilde van Holland (West-Friesland)",
+   place:"Holland / West-Friesland",
+   years:"ca 1030–1078",
+   lat:52.40, lon:4.90,
+   note:"Vroege Hollandse edelvrouw in je stamboom."},
+
+  {name:"Emmo (Immo) IV van Loon",
+   place:"Loon (regio Borgloon)",
+   years:"ca 1040–1098",
+   lat:50.80, lon:5.34,
+   note:"Brengt het graafschap Loon in je genealogie."},
+
+  {name:"Albert II 'de Lommen' van Namen",
+   place:"Namen",
+   years:"ca 1000–1063/64",
+   lat:50.47, lon:4.87,
+   note:"Versterkt de positie van de Naamse lijn."},
+
+  {name:"Regelindis van Lotharingen (de Verdun)",
+   place:"Verdun / Lotharingen",
+   years:"ca 994–1064",
+   lat:49.16, lon:5.38,
+   note:"Verbindt Verdun en Namen."},
+
+  // HOGE MIDDELEEUWEN: BERTHOUT, ALSACE, BRABANT, LUXEMBURG, LIMBURG
+  {name:"Wouter I 'Draeckenbaert' Berthout van Mechelen",
+   place:"Mechelen",
+   years:"ca 1060–ca 1120",
+   lat:51.03, lon:4.48,
+   note:"Belangrijke voorouder in de Brabantse/Antwerpse regio."},
+
+  {name:"Adelheid (Adelina) van Bocholt (van Grimbergen)",
+   place:"Regio Bocholt/Grimbergen",
+   years:"ca 1060–ca 1120",
+   lat:51.02, lon:4.37,
+   note:"Vroege band met de Brabantse kastelen."},
+
+  {name:"Diederik II 'Le Vaillant' van Lotharingen",
+   place:"Lotharingen",
+   years:"1055–1115",
+   lat:49.75, lon:6.64,
+   note:"Ridderlijke Lotharingse lijn."},
+
+  {name:"Gertrudis van Vlaanderen",
+   place:"Vlaanderen",
+   years:"ca 1070–1117",
+   lat:51.05, lon:3.72,
+   note:"Verbindt Lotharingen opnieuw met Vlaanderen."},
+
+  {name:"Albert III van Namen",
+   place:"Namen",
+   years:"1035–1102",
+   lat:50.47, lon:4.87,
+   note:"Naamse graaf in de overgang naar de 12e eeuw."},
+
+  {name:"Ida (Relinde Ida) van Saksen-Billung",
+   place:"Saksen",
+   years:"1035/1047–1102",
+   lat:52.13, lon:11.62,
+   note:"Billungse dynastie, een machtige Saksische familie."},
+
+  {name:"Diederik III (Dirk) d’Alsace",
+   place:"Elzas (regio Straatsburg)",
+   years:"ca 1099–1168",
+   lat:48.58, lon:7.75,
+   note:"Graaf van Vlaanderen uit het Huis van de Elzas."},
+
+  {name:"Sybille d’Anjou",
+   place:"Anjou (regio Angers)",
+   years:"ca 1116–1165",
+   lat:47.47, lon:-0.55,
+   note:"Verbindt Vlaanderen met de Angevijnse dynastie."},
+
+  {name:"Mattheus I d’Alsace (van de Elzas)",
+   place:"Elzas / Vlaanderen",
+   years:"1137–1173",
+   lat:50.99, lon:3.43,
+   note:"Elzasser die graaf wordt in de Nederlanden."},
+
+  {name:"Maria de Bois-Boulogne (van Engeland)",
+   place:"Engeland / Boulogne",
+   years:"1125–1182",
+   lat:51.50, lon:-0.12,
+   note:"Dochter van koning Stephen van Engeland; Boulogne-tak."},
+
+  {name:"Hendrik I 'de Krijgshaftige' van Brabant en Leuven",
+   place:"Leuven / Brabant",
+   years:"1165–1235",
+   lat:50.88, lon:4.70,
+   note:"Belangrijk hertog in je Brabantse voorouderlijn.",
+   category:"kings"},
+
+  {name:"Ermesinde van Namen en Luxemburg",
+   place:"Namen & Luxemburg",
+   years:"1186–1247",
+   lat:49.61, lon:6.13,
+   note:"Verenigt de domeinen Namen en Luxemburg."},
+
+  {name:"Walram III van Limburg",
+   place:"Limburg (Hertogdom)",
+   years:"1180–1226",
+   lat:50.78, lon:5.86,
+   note:"Hertog van Limburg; onderdeel van onze hoger-adellijke lijn."},
+
+  // NIEUWE TIJD: BUDÉ, HÉNIN, OVERSTRAETEN, DE NEVE, NORMENDIE, DE PRET
+  {name:"Jeanne 'la Gentienne' Peschart",
+   place:"Regio Noord-Frankrijk / Artesië",
+   years:"ca 1402–1468",
+   lat:50.72, lon:2.26,
+   note:"Voorouder in de lijn naar Budé en De Neve."},
+
+  {name:"Dreux Budé",
+   place:"Parijs",
+   years:"1396/1399–/1476",
+   lat:48.85, lon:2.35,
+   note:"Vader van Jean II Budé; Franse humanistische omgeving."},
+
+  {name:"Jean II Budé",
+   place:"Parijs",
+   years:"1430–1501",
+   lat:48.85, lon:2.35,
+   note:"Raadsheer en geleerde, vader van Guillaume Budé."},
+
+  {name:"Cathérine le Picart de Plateville",
+   place:"Regio Picardië",
+   years:"1439–/1506",
+   lat:49.90, lon:2.30,
+   note:"Moeder van Guillaume Budé."},
+
+  {name:"Guillaume Budé",
+   place:"Parijs",
+   years:"1468–1540",
+   lat:48.85, lon:2.35,
+   note:"Beroemde humanist; belangrijk cultuurhistorisch anker in onze stamboom."},
+
+  {name:"Lijsbeth van Overstraeten",
+   place:"Regio Brussel / Overstraeten",
+   years:"†1563",
+   lat:50.85, lon:4.35,
+   note:"Brengt de lijn naar de familie De Neve."},
+
+  {name:"Jan De Neve",
+   place:"Zuidelijke Nederlanden",
+   years:"†1577",
+   lat:51.00, lon:4.40,
+   note:"Belangrijke schakel naar Ida de Neve."},
+
+  {name:"Ide (Ida) de Neve",
+   place:"Zuidelijke Nederlanden",
+   years:"ca 1560–1626",
+   lat:51.00, lon:4.40,
+   note:"Verbindt De Neve met de familie Seghers."},
+
+  {name:"Jean Seghers",
+   place:"Regio Antwerpen / Brabant",
+   years:"ca 1560–1605",
+   lat:51.22, lon:4.40,
+   note:"Zuid-Nederlandse burgerlijke voorouder."},
+
+  {name:"Rollo (Hrolf Ganger)",
+   place:"Rouen (Normandië)",
+   years:"ca 860–930",
+   lat:49.44, lon:1.10,
+   note:"Viking-leider, eerste hertog van Normandië; stamvader van de Normandische lijn.",
+   category:"vikings"},
+
+   // VIKINGEN / NOORMANNEN
+  {name:"Poppa van Bayeux",
+   place:"Bayeux",
+   years:"ca 880–fl",
+   lat:49.16, lon:0.42,
+   note:"Tweede echtgenote van Rollo (Robert van Normandië)",
+   category:"normandiers"},
+
+
+   // --- VIKINGEN: ROLLO-LIJN ---
+
+   // ROLLO → WILLEM LANGZWAARD → RICHARD I → RICHARD II → ETC.
+  {name:"Willem I ‘Langzwaard’",
+   place:"Rouen",
+   years:"893–942",
+   lat:49.44, lon:1.10,
+   note:"Zoon van Rollo; tweede heerser van Normandië.",
+   category:"vikings"},
+
+  {name:"Richard I ‘de Onverschrokken’",
+   place:"Fécamp",
+   years:"933–996",
+   lat:49.76, lon:0.37,
+   note:"Kleinzoon van Rollo; derde hertog van Normandië.",
+   category:"normandiers"},
+
+  {name:"Michel de Normendie",
+   place:"Normandië (Frankrijk)",
+   years:"1619–1697",
+   lat:49.18, lon:0.37,
+   note:"Normandische tak in de 17e eeuw."},
+
+  {name:"Theodora Tronchin",
+   place:"Regio Genève / Zwitserland (Tronchin-familie)",
+   years:"1627–1705",
+   lat:46.20, lon:6.15,
+   note:"Bekende familie in de Zwitserse/regio-context."},
+
+  {name:"Thomas Andries Michiel de Pret",
+   place:"Antwerpen",
+   years:"1591–1663",
+   lat:51.22, lon:4.40,
+   note:"Begin van de De Pret-lijn in Antwerpen."},
+
+  {name:"Susanna Fourmenois",
+   place:"Antwerpen",
+   years:"1604–1666",
+   lat:51.22, lon:4.40,
+   note:"Verbindt de familie De Pret met stedelijke burgerij."},
+
+  {name:"Jacobus de Pret",
+   place:"Antwerpen",
+   years:"1643–1703",
+   lat:51.22, lon:4.40,
+   note:"Vroege De Pret in de 17e eeuw."},
+
+  {name:"Marie Mechtilde van Hoorenbeeck",
+   place:"Antwerpen / Mechelen",
+   years:"1647–1714",
+   lat:51.03, lon:4.48,
+   note:"Adellijke burgerij in Brabant/Antwerpen."},
+
+  {name:"Armoud (Arnould) François de Pret",
+   place:"Antwerpen",
+   years:"†1727",
+   lat:51.22, lon:4.40,
+   note:"Verbindt de Pret-lijn met de Horne-adel."},
+
+  {name:"Anne Marguerite van Horne (de Hornes)",
+   place:"Regio Horne / Maasland",
+   years:"1683–1758",
+   lat:51.14, lon:5.88,
+   note:"Adellijke familie rond de Maas en Limburg."},
+
+  {name:"Arnould François Joseph Bruno de Pret",
+   place:"Antwerpen",
+   years:"1722–1789",
+   lat:51.22, lon:4.40,
+   note:"Brengt de lijn naar de latere de Pret-Roose de Calesberg."},
+
+  {name:"Marie Petronille (Maria Petronella) Moretus",
+   place:"Antwerpen",
+   years:"1724–1798",
+   lat:51.22, lon:4.40,
+   note:"Afstammelinge van de Plantijn-Moretus drukkerijtraditie."},
+
+  {name:"Jacques Paul Joseph de Pret Roose de Calesberg",
+   place:"Antwerpen / Calesberg",
+   years:"1762–1817",
+   lat:51.22, lon:4.40,
+   note:"Begin van de samengestelde familienaam De Pret Roose de Calesberg."},
+
+  // MODERNE TIJD: COOMANS, ROGGEN, ROSA
+  {name:"Arnould Ferdinand Charles de Pret Roose de Calesberg",
+   place:"Hemiksem / omgeving",
+   years:"1842–1902",
+   lat:51.14518, lon:4.33834,
+   note:"Adellijke tak in de 19e eeuw.",
+   category:"modern"},
+
+  {name:"Sophia Coomans",
+   place:"Hemiksem / omgeving",
+   years:"1838–1885",
+   lat:51.14518, lon:4.33834,
+   note:"Voert naar de Coomans-lijn.",
+   category:"modern"},
+
+  {name:"Josephus Coomans",
+   place:"Hemiksem / omgeving",
+   years:"1874–1956",
+   lat:51.14518, lon:4.33834,
+   note:"Verbindt de 19e-eeuwse generaties met de 20e eeuw.",
+   category:"modern"},
+
+  {name:"Maria Leonia Cools",
+   place:"Hemiksem / omgeving",
+   years:"1875–1956",
+   lat:51.14518, lon:4.33834,
+   note:"Voegt de Cools-tak toe.",
+   category:"modern"},
+
+  {name:"Mathildis Cornelia Coomans",
+   place:"Hemiksem / omgeving",
+   years:"1902–Jan 1959",
+   lat:51.14518, lon:4.33834,
+   note:"Schakel naar de familie De Saer",
+   category:"modern"},
+
+{name:"Pieter Jozef De Saer",
+   place:"Boom / omgeving",∂
+   years:"1898–1983",
+   lat:51.0875, lon:4.36806,
+   note:"Introduceert de familienaam De Saer in de directe lijn naar Theo Seeldraeyers.",
+   category:"modern"},
+   
+  {name:"José De Saer",
+   place:"Hemiksem / omgeving",
+   years:"1931–2004",
+   lat:51.14518, lon:4.33834,
+   note:"Recente generatie; directe voorouder in de Seeldraeyers–De Belder familiegeschiedenis.",
+   category:"modern"},
+
+  {name:"Jozef Maria De Belder",
+   place:"Boom / omgeving",
+   years:"1929–1998",
+   lat:51.14518, lon:4.33844,
+   note:"Introduceert de familienaam De Belder in de directe lijn naar Jacqueline De Belder.",
+   category:"modern"},
+
+  {name:"Anna Paulina Coomans",
+   place:"Boom / omgeving",
+   years:"1910–1991",
+   lat:51.0875, lon:4.36806,
+   note:"Schakel naar de familie Roggen.",
+   category:"modern"},
+
+  {name:"Hendrik Jan Roggen",
+   place:"Boom / omgeving",
+   years:"1910–1989",
+   lat:51.0875, lon:4.36806,
+   note:"Introduceert de familienaam Roggen in de directe lijn naar Theo Seeldraeyers.",
+   category:"modern"},
+
+  {name:"Rosa Hendrika Roggen",
+   place:"Boom / omgeving",
+   years:"1934–2022",
+   lat:51.0875, lon:4.36806,
+   note:"Recente generatie; directe voorouder in de Seeldraeyers–De Belder familiegeschiedenis.",
+   category:"modern"},
+
+  {name:"Josephus Theodorus Seeldraeyers",
+   place:"Schelle / omgeving",
+   years:"1892–1973",
+   lat:51.13, lon:4.34,
+   note:"Introduceert de familienaam Seeldraeyers in de directe lijn naar Theo Seeldraeyers.",
+   category:"modern"},
+
+  {name:"Joanna Louisa Mathilda Verdickt",
+   place:"Schelle / omgeving",
+   years:"1898–1960",
+   lat:51.13, lon:4.34,
+   note:"Introduceert de familienaam Verdickt in de directe lijn naar Theo Seeldraeyers.",
+   category:"modern"},
+
+  {name:"Joris Elodie Seeldraeyers",
+   place:"Hemiksem / omgeving",
+   years:"1928–2022",
+   lat:51.14518, lon:4.33834,
+   note:"Recente generatie; directe voorouder in de Seeldraeyers–De Belder familiegeschiedenis.",
+   category:"modern"},
+  
+  {name:"Theo Seeldraeyers",
+   place:"Puurs",
+   years:"1952 (levend)",
+   lat:51.08, lon:4.28,
+   note:"Genealoog en samensteller van de familiekaart Seeldraeyers–De Belder.",
+   category:"modern"},
+
+  {name:"Jacqueline Mathilde De Belder",
+   place:"Puurs",
+   years:"1951 (levend)",
+   lat:51.08, lon:4.28,
+   note:"Partner van Theo; moderne generatie in de familiegeschiedenis.",
+   category:"modern"}
+];
+
+// Hulpfunctie: periodekleur -> CSS-class
+function periodClass(years) {
+  var match = years.match(/(\d{3,4})/);
+  if (!match) return "period-late";
+  var y = parseInt(match[1], 10);
+  if (y < 1000) return "period-early";   // vroege middeleeuwen
+  if (y < 1300) return "period-high";    // hoge middeleeuwen
+  if (y < 1800) return "period-modern";  // nieuwe tijd
+  return "period-late";                  // moderne tijd
+}
+
+// Lagen (cluster-groepen)
+var layerAll = L.markerClusterGroup();
+var layerKings = L.markerClusterGroup();
+var layerVikings = L.markerClusterGroup();
+var layerClann = L.markerClusterGroup();
+var layerModern = L.markerClusterGroup(); // NIEUW: moderne familie
+var layerNormandiers = L.markerClusterGroup();
+
+people.forEach(function(p) {
+  var pClass = periodClass(p.years);
+  var icon = L.divIcon({
+    html: '<div class="circle-icon ' + pClass + '"></div>',
+    className: '',
+    iconSize: [12, 12]
+  });
+
+  var marker = L.marker([p.lat, p.lon], { icon: icon });
+
+  var popupHtml =
+    "<b>" + p.name + "</b><br/>" +
+    "<i>" + p.place + "</i><br/>" +
+    p.years +
+    (p.note ? "<br/><small>" + p.note + "</small>" : "");
+
+  marker.bindPopup(popupHtml);
+
+    // Algemene laag
+  layerAll.addLayer(marker);
+
+  // Extra lagen op basis van category
+  if (p.category === "kings") {
+    layerKings.addLayer(marker);
+  }
+  if (p.category === "vikings") {
+    layerVikings.addLayer(marker);
+  }
+  if (p.category === "clann") {
+    layerClann.addLayer(marker);
+  }
+  if (p.category === "modern") {
+    layerModern.addLayer(marker);
+  }
+  if (p.category === "normandiers") {
+    layerNormandiers.addLayer(marker);
+  }
+});
+
+map.addLayer(layerAll);
+
+// Lagenmenu
+L.control.layers(
+  null,
+  {
+    "Alle personen": layerAll,
+    "Keizers & Koningen": layerKings,
+    "Vikingen & Noormannen": layerVikings,
+    "Clann Néill": layerClann,
+    "Moderne familie": layerModern,
+    "Normandiërs": layerNormandiers
+  }
+).addTo(map);
+
+</script>
+
+</body>
+</html>
