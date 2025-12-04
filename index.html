@@ -55,7 +55,9 @@
     .period-high    { background:#2ca02c; } /* 1000–1300 */
     .period-modern  { background:#ff7f0e; } /* 1300–1800 */
     .period-late    { background:#d62728; } /* na 1800 */
-  </style>
+    .period-imperial{ background:#6a0dad; } /* klassiek imperiaal paars */
+    
+</style>
 </head>
 <body>
 
@@ -92,6 +94,8 @@
   <div><span style="background:#2ca02c;"></span>Hoge middeleeuwen (1000–1300)</div>
   <div><span style="background:#ff7f0e;"></span>Nieuwe tijd (1300–1800)</div>
   <div><span style="background:#d62728;"></span>Moderne tijd (na 1800)</div>
+  <div><span style="background:#6a0dad;"></span>Imperiale lijn (Rome → Armenië → Bourgondië → Budé → Theo)</div>
+
 </div>
 
 <script>
@@ -107,6 +111,414 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 */
 
 var people = [
+  // ROME – BYZANTIUM – ARMENIË – HONGARIJE – BOURGONDIË – BUDÉ – LIJN
+  {
+    name:"Constantius I Chlorus",
+    place:"Nicomedia / Trier (Romeinse Rijk)",
+    years:"†305",
+    lat:40.77, lon:29.92,
+    note:"Romeins keizer; begin van de imperiale lijn.",
+    category:"imperialLine"
+  },
+  {
+    name:"Flavia Maximiana Theodora",
+    place:"Romeinse Rijk",
+    years:"3e–4e eeuw",
+    lat:41.90, lon:12.50,
+    note:"Keizerin; echtgenote van Constantius I.",
+    category:"imperialLine"
+  },
+  {
+    name:"Hélène Flavia (Sint Helena)",
+    place:"Constantinopel",
+    years:"ca 248–ca 329",
+    lat:41.01, lon:28.96,
+    note:"Moeder van Constantijn de Grote; legendarische kruisvondster.",
+    category:"imperialLine"
+  },
+  {
+    name:"Constantinus I 'de Grote' van Rome",
+    place:"Constantinopel / Trier",
+    years:"273–337",
+    lat:41.01, lon:28.96,
+    note:"Keizer; legaliseert het christendom en sticht Constantinopel.",
+    category:"imperialLine"
+  },
+  {
+    name:"Constantina (Sint Constanza) van Rome",
+    place:"Constantinopel",
+    years:"318–354",
+    lat:41.01, lon:28.96,
+    note:"Dochter van Constantijn de Grote.",
+    category:"imperialLine"
+  },
+  {
+    name:"Anastasia van Rome",
+    place:"Rome",
+    years:"4e–5e eeuw",
+    lat:41.90, lon:12.50,
+    note:"Vroege overgang van keizerlijke naar senaatsadel.",
+    category:"imperialLine"
+  },
+  {
+    name:"Flavius Paulus van Byzantium",
+    place:"Constantinopel",
+    years:"†496",
+    lat:41.01, lon:28.96,
+    note:"Byzantijnse aristocratie; zet de imperiale lijn voort.",
+    category:"imperialLine"
+  },
+  {
+    name:"Julia Anicia Proba",
+    place:"Constantinopel / Rome",
+    years:"ca 533–",
+    lat:41.90, lon:12.50,
+    note:"Afkomstig uit de Anicia-familie; oude senatorenstand.",
+    category:"imperialLine"
+  },
+  {
+    name:"Placidia Anastasia",
+    place:"Oost-Romeinse Rijk",
+    years:"552–",
+    lat:41.01, lon:28.96,
+    note:"Verbindt de laat-Romeinse wereld met de Armeense adel.",
+    category:"imperialLine"
+  },
+  {
+    name:"Manuel Arschakouni",
+    place:"Armenië",
+    years:"6e–7e eeuw",
+    lat:40.18, lon:44.52,
+    note:"Afkomstig uit de Arsacidische/Arschakouni-kring in Armenië.",
+    category:"imperialLine"
+  },
+  {
+    name:"Sahak III Bagratid (van Armenië)",
+    place:"Armenië (regio Ani)",
+    years:"7e–8e eeuw",
+    lat:40.52, lon:43.58,
+    note:"Vroege telg van de Bagratiden; koninklijke Armeense dynastie.",
+    category:"imperialLine"
+  },
+  {
+    name:"Ashot III 'de Blinde' Bagratid",
+    place:"Armenië",
+    years:"†782",
+    lat:40.52, lon:43.58,
+    note:"Armeense prins; schakel naar de latere koningen Bagratid.",
+    category:"imperialLine"
+  },
+  {
+    name:"Smbat VII Bagratid",
+    place:"Armenië",
+    years:"†775",
+    lat:40.52, lon:43.58,
+    note:"Armeense edelman; deel van de koninklijke Bagratuni-lijn.",
+    category:"imperialLine"
+  },
+  {
+    name:"Ashot IV Msaker 'de Moedige / de Vleeseter'",
+    place:"Armenië",
+    years:"†826",
+    lat:40.52, lon:43.58,
+    note:"Belangrijk stamhoofd; bijnaam 'de Vleeseter'.",
+    category:"imperialLine"
+  },
+  {
+    name:"Smbat VIII Xostovanol 'de Belijder'",
+    place:"Armenië",
+    years:"8e–9e eeuw",
+    lat:40.52, lon:43.58,
+    note:"Religieus-getinte figuur in de Bagratuni-lijn.",
+    category:"imperialLine"
+  },
+  {
+    name:"Ashot I 'de Grote' Bagratid (koning van Armenië)",
+    place:"Ani (Armenië)",
+    years:"ca 820–890",
+    lat:40.52, lon:43.58,
+    note:"Eerste koning van het middeleeuwse Armenië uit dit huis.",
+    category:"imperialLine"
+  },
+  {
+    name:"Smbat I 'de Martelaar' Bagratid",
+    place:"Ani (Armenië)",
+    years:"ca 850–912/914",
+    lat:40.52, lon:43.58,
+    note:"Koning van Armenië; gesneuveld in strijd met de Arabische machten.",
+    category:"imperialLine"
+  },
+  {
+    name:"Ashot II 'de IJzeren' Bagratid",
+    place:"Ani (Armenië)",
+    years:"873–",
+    lat:40.52, lon:43.58,
+    note:"Koning van Armenië; hield stand tegen Byzantijnen en Arabieren.",
+    category:"imperialLine"
+  },
+  {
+    name:"Ripsimija Bagratid",
+    place:"Armenië",
+    years:"9e–10e eeuw",
+    lat:40.52, lon:43.58,
+    note:"Prinses; schakel naar het Bulgaarse koningshuis.",
+    category:"imperialLine"
+  },
+  {
+    name:"Samuel van Bulgarije (Cometopulo)",
+    place:"Ohrid (Bulgarije)",
+    years:"ca 950–1014",
+    lat:41.12, lon:20.80,
+    note:"Tsaar van Bulgarije; krachtige balkankoning in je lijn.",
+    category:"imperialLine"
+  },
+  {
+    name:"Katyn Anastasia van Bulgarije",
+    place:"Bulgarije",
+    years:"978–1014",
+    lat:42.70, lon:23.32,
+    note:"Bulgaars prinses; brug naar Hongarije.",
+    category:"imperialLine"
+  },
+  {
+    name:"Béla I van Hongarije (huis Árpád)",
+    place:"Székesfehérvár (Hongarije)",
+    years:"1014–1063",
+    lat:47.19, lon:18.41,
+    note:"Koning van Hongarije; Árpád-dynastie.",
+    category:"imperialLine"
+  },
+  {
+    name:"Sophia Árpád",
+    place:"Hongarije",
+    years:"ca 1044–1095",
+    lat:47.19, lon:18.41,
+    note:"Hongaarse prinses; verbindt Hongarije met Karniola en Istrië.",
+    category:"imperialLine"
+  },
+  {
+    name:"Richardis van Carniola",
+    place:"Krain (Carniola, Slovenië)",
+    years:"12e eeuw",
+    lat:46.05, lon:14.51,
+    note:"Adel in het oostelijke Alpengebied.",
+    category:"imperialLine"
+  },
+  {
+    name:"Poppo II van Istrië",
+    place:"Istrië",
+    years:"ca 1060–1098",
+    lat:45.22, lon:13.59,
+    note:"Markgraaf in Istrië; verbindt Adriatische en Beierse adel.",
+    category:"imperialLine"
+  },
+  {
+    name:"Wulfhilde van Saksen-Billung",
+    place:"Saksen",
+    years:"†1126",
+    lat:52.13, lon:11.62,
+    note:"Billungse prinses; huwt in de Beierse hoogadel.",
+    category:"imperialLine"
+  },
+  {
+    name:"Otto V (IV) van Beieren",
+    place:"Beieren",
+    years:"ca 1090–1156",
+    lat:48.14, lon:11.58,
+    note:"Beiers hertog; begin van de Andechs–Meranië-verbinding.",
+    category:"imperialLine"
+  },
+  {
+    name:"Sophia van Istrië",
+    place:"Istrië / Beieren",
+    years:"ca 1096–1132",
+    lat:45.22, lon:13.59,
+    note:"Dochter van de Istrische lijn; huwt in Beieren.",
+    category:"imperialLine"
+  },
+  {
+    name:"Judith 'Welf' van Beieren",
+    place:"Beieren",
+    years:"ca 1100–",
+    lat:48.14, lon:11.58,
+    note:"Welfische connectie in de Beierse hoogadel.",
+    category:"imperialLine"
+  },
+  {
+    name:"Berthold III van Andechs",
+    place:"Andechs (Beieren)",
+    years:"†1188",
+    lat:47.97, lon:11.20,
+    note:"Graaf van Andechs; vader van Berthold IV.",
+    category:"imperialLine"
+  },
+  {
+    name:"Berthold IV van Andechs-Meranië",
+    place:"Meranië / Andechs",
+    years:"†1204",
+    lat:47.97, lon:11.20,
+    note:"Hertog; schakelfiguur tussen Beieren en Bourgondië.",
+    category:"imperialLine"
+  },
+  {
+    name:"Otto I van Andechs-Meranië",
+    place:"Meranië",
+    years:"ca 1180–1234",
+    lat:46.50, lon:14.30,
+    note:"Hertog; behandeld in de Europese hoogadel.",
+    category:"imperialLine"
+  },
+  {
+    name:"Beatrice II van Hohenstaufen (de Bourgogne)",
+    place:"Bourgondië",
+    years:"1193–1231",
+    lat:47.32, lon:5.04,
+    note:"Erfvrouwe van het graafschap Bourgondië.",
+    category:"imperialLine"
+  },
+  {
+    name:"Mahaut van Bourgondië",
+    place:"Bourgondië",
+    years:"1190–1242",
+    lat:47.32, lon:5.04,
+    note:"Verbindt Andechs-Meranië met Bourgondische adel.",
+    category:"imperialLine"
+  },
+  {
+    name:"Adelheid (Alix) van Bourgondië-Auxerre",
+    place:"Auxerre / Bourgondië",
+    years:"1209–1279",
+    lat:47.80, lon:3.57,
+    note:"Bourgondische erfdochter; verbindt naar Chalon.",
+    category:"imperialLine"
+  },
+  {
+    name:"Hugo III de Chalon",
+    place:"Chalon-sur-Saône",
+    years:"1220–1266",
+    lat:46.78, lon:4.85,
+    note:"Graaf van Bourgondië; zet de lijn voort.",
+    category:"imperialLine"
+  },
+  {
+    name:"Agnès de Bourgogne-Comté",
+    place:"Bourgondië",
+    years:"1250–1286",
+    lat:47.32, lon:5.04,
+    note:"Brengt Bourgondische rechten mee naar de Vienne/Silly-lijn.",
+    category:"imperialLine"
+  },
+  {
+    name:"Étienne (de Vienne / de Silly)",
+    place:"Vienne / Bourgondië",
+    years:"13e–14e eeuw",
+    lat:45.52, lon:4.87,
+    note:"Voorouder in de Silly–Dormans–Poncher–Budé-keten.",
+    category:"imperialLine"
+  },
+  {
+    name:"Jeanne Baube de Silly",
+    place:"Île-de-France",
+    years:"ca 1333–1405",
+    lat:48.80, lon:2.25,
+    note:"Parijse / Île-de-France adel; schakelfiguur.",
+    category:"imperialLine"
+  },
+  {
+    name:"Marguerite de Dormans",
+    place:"Île-de-France",
+    years:"1355–1422",
+    lat:48.80, lon:2.25,
+    note:"Dochter van de Dormans-familie; moeder van Catherine Poncher.",
+    category:"imperialLine"
+  },
+  {
+    name:"Catherine Poncher",
+    place:"Parijs",
+    years:"ca 1410–1485",
+    lat:48.85, lon:2.35,
+    note:"Parijse elite; grootmoeder van Guillaume Budé.",
+    category:"imperialLine"
+  },
+  {
+    name:"Cathérine le Picart de Plateville",
+    place:"Picardië",
+    years:"1439–1506",
+    lat:49.90, lon:2.30,
+    note:"Moeder van Guillaume Budé volgens de genealogie.",
+    category:"imperialLine"
+  },
+  {
+    name:"Guillaume Budé",
+    place:"Parijs",
+    years:"1468–1540",
+    lat:48.85, lon:2.35,
+    note:"Humanist en geleerde; cultureel hoogtepunt in jouw lijn.",
+    category:"imperialLine"},
+
+  {name:"Marguerite Budé",
+   place:"Parijs",
+   years:"1529–1618",
+   lat:48.85, lon:2.35,
+   note:"Dochter van Guillaume Budé; brengt de lijn naar Marie de Trye.",
+   category:"imperialLine"},
+
+  {name:"Marie de Trye",
+   place:"Noord-Frankrijk",
+   years:"1552–1632",
+   lat:49.60, lon:3.00,
+   note:"Franse adel; schakel naar Joseph de Normendie.",
+   category:"imperialLine"},
+
+  {name:"Joseph de Normendie",
+   place:"Noord-Frankrijk",
+   years:"1576–1625",
+   lat:49.60, lon:3.00,
+   note:"Doet de naam Normendie in je lijn verschijnen.",
+   category:"imperialLine"},
+
+  {name:"Michel de Normendie",
+   place:"Normandië",
+   years:"1619–1697",
+   lat:49.18, lon:0.37,
+   note:"Al aanwezig in je kaart; hier als schakel binnen de imperiale ketting.",
+   category:"imperialLine"},
+
+  {name:"Anne de Normendie",
+   place:"Normandië",
+   years:"1664–1697",
+   lat:49.18, lon:0.37,
+   note:"Verbindt de Normendie-lijn met de De Putter-familie.",
+   category:"imperialLine"},
+
+  {name:"Johan Anthonie de Putter",
+   place:"Nederland (Zeeland / Holland)",
+   years:"1687–1772",
+   lat:51.50, lon:3.60,
+   note:"Nederlandse tak; overgang naar Thuret en De Pret.",
+   category:"imperialLine"},
+
+  {name:"Susanna Maria de Putter",
+   place:"Nederland / Zuidelijke Nederlanden",
+   years:"1745–1783",
+   lat:51.50, lon:3.60,
+   note:"Schakel naar Daniel II Thuret.",
+   category:"imperialLine"},
+
+  {name:"Daniel II Thuret",
+   place:"Zuidelijke Nederlanden",
+   years:"1778–1852",
+   lat:50.85, lon:4.35,
+   note:"Verbindt burgerlijke adel en De Pret Roose-lijn.",
+   category:"imperialLine"},
+
+  {name:"Eulalie Thuret",
+   place:"Zuidelijke Nederlanden",
+   years:"1807–1869",
+   lat:50.85, lon:4.35,
+   note:"Moeder in de lijn naar Arnould Ferdinand Charles de Pret Roose de Calesberg.",
+   category:"imperialLine"},
+
   // VROEGE MIDDELEEUWEN – CLANN NÉILL – IERLAND
   {name:"Niall Noígíallach",
    place:"Tara (Ierland)",
@@ -186,12 +598,6 @@ var people = [
    lat:48.78, lon:1.81,
    note:"Grote Franse ridderlijke tak."},
 
-  {name:"Agnes de Montfort",
-   place:"Île-de-France",
-   years:"ca 1123–1181",
-   lat:48.80, lon:2.25,
-   note:"Overgang naar Meulan."},
-
   {name:"Amaury de Meulan",
    place:"Meulan-en-Yvelines",
    years:"1149–1204",
@@ -205,12 +611,48 @@ var people = [
   note:"Stamvader van de Noorse lijn; grootvader van Rollo.",
   category:"vikingline"},
 
- {name:"Rognvald (Ragnvald) Eysteinsson",
-  place:"Møre (Noorwegen)",
-  years:"ca 830–894",
-  lat:62.74, lon:7.15,
-  note:"Jarl van Møre; vader van Rollo; jouw lijn gaat via zijn zoon Bernard.",
-  category:"vikingline"},
+  // NOORDELIJKE VIKINGEN-ZIJTAK ROGNVALD
+ {name:"Torf-Einar Rognvaldsson",
+  place:"Orkney-eilanden (Schotland)",
+  years:"ca 890–ca 950",
+  lat:59.00, lon:-3.00,
+  note:"Zoon van Rognvald Eysteinsson; stichter van de Orkney-jarls.",
+  category:"vikinglinerognvald"},
+
+ {name:"Thorfinn 'Skull-Splitter' Torfinnsson",
+  place:"Orkney-eilanden",
+  years:"† ca 977",
+  lat:59.00, lon:-3.01,
+  note:"Legendarische jarl van Orkney; zoon van Torf-Einar.",
+  category:"vikinglinerognvald"},
+
+ {name:"Einarr Thorfinnsson",
+  place:"Orkney-eilanden",
+  years:"10e eeuw",
+  lat:59.00, lon:-3.02,
+  note:"Zoon van Thorfinn Skull-Splitter; vroege Orkney-jarl.",
+  category:"vikinglinerognvald"},
+
+ {name:"Arnfinn Thorfinnsson",
+  place:"Orkney-eilanden",
+  years:"† ca 979",
+  lat:59.00, lon:-3.03,
+  note:"Vroege jarl van Orkney; korte regeerperiode.",
+  category:"vikinglinerognvald"},
+
+ {name:"Havard Thorfinnsson",
+  place:"Orkney-eilanden",
+  years:"† ca 980",
+  lat:59.00, lon:-3.04,
+  note:"Jarl van Orkney; zoon van Thorfinn Skull-Splitter.",
+  category:"vikinglinerognvald"},
+
+ {name:"Ljot Thorfinnsson",
+  place:"Orkney-eilanden",
+  years:"† ca 980–990",
+  lat:59.00, lon:-3.05,
+  note:"Jarl van Orkney; sneuvelde in gevecht met Moray.",
+  category:"vikinglinerognvald"},
 
  {name:"Bernard 'de Deen' Ragnvaldsson",
   place:"Pont-Audemer (Normandië)",
@@ -1094,7 +1536,7 @@ var people = [
    note:"Tweede echtgenote van Rollo (Robert van Normandië)",
    category:"normandiers"},
 
-   // === ZWEEDSE & DEENSE VIKINGKONINGEN – HARALD BLAUWTAND DYNATIE ===
+  // === ZWEEDSE & DEENSE VIKINGKONINGEN – HARALD BLAUWTAND DYNATIE ===
 {
   name:"Sigurd Hring",
   place:"Uppsala (Zweden)",
@@ -1107,7 +1549,7 @@ var people = [
   name:"Ragnar Lodbrok",
   place:"Uppsala (Zweden)",
   years:"ca 760–845",
-  lat:59.86, lon:17.64,
+  lat:59.86, lon:17.66,
   note:"Vikingheld; koning van de Svea; centrale figuur in de saga’s.",
   category:"vikingkings"
 },
@@ -1208,10 +1650,8 @@ var people = [
   years:"907–942",
   lat:49.44, lon:1.10,
   note:"Zoon van Rollo; tweede heerser van Normandië.",
-  category:"vikings"
-},
-
-
+  category:"vikings"},
+   
   {name:"Richard I ‘de Onverschrokken’",
    place:"Fécamp",
    years:"933–996",
@@ -1400,14 +1840,16 @@ var people = [
 ];
 
 // Hulpfunctie: periodekleur -> CSS-class
-function periodClass(years) {
+function periodClass(years, category) {
+  if (category === "imperialLine") return "period-imperial";
+
   var match = years.match(/(\d{3,4})/);
   if (!match) return "period-late";
   var y = parseInt(match[1], 10);
-  if (y < 1000) return "period-early";   // vroege middeleeuwen
-  if (y < 1300) return "period-high";    // hoge middeleeuwen
-  if (y < 1800) return "period-modern";  // nieuwe tijd
-  return "period-late";                  // moderne tijd
+  if (y < 1000) return "period-early";
+  if (y < 1300) return "period-high";
+  if (y < 1800) return "period-modern";
+  return "period-late";
 }
 
 // Lagen (cluster-groepen)
@@ -1420,9 +1862,12 @@ var layerNormandiers = L.markerClusterGroup();
 var layerVikingKings = L.markerClusterGroup(); // NIEUW: Deense & Zweedse vorsten
 var layerMerovingians = L.markerClusterGroup(); // NIEUW: Merovingers & Franken
 var layerVikingline = L.markerClusterGroup();
+var layerVikinglineRognvald = L.markerClusterGroup(); // NIEUW: Vikinglijn Orkney
+var layerImperialLine = L.markerClusterGroup(); // ROME–BYZ–ARM–HONG–BOURG–BUDÉ–LIJN
 
 people.forEach(function(p) {
-  var pClass = periodClass(p.years);
+  var pClass = periodClass(p.years, p.category);
+
   var icon = L.divIcon({
     html: '<div class="circle-icon ' + pClass + '"></div>',
     className: '',
@@ -1439,35 +1884,40 @@ people.forEach(function(p) {
 
   marker.bindPopup(popupHtml);
 
-    // Algemene laag
+  // Algemene laag
   layerAll.addLayer(marker);
 
-  // Extra lagen op basis van category
-  if (p.category === "kings") {
-    layerKings.addLayer(marker);
-  }
-  if (p.category === "vikings") {
-    layerVikings.addLayer(marker);
-  }
+// Extra lagen op basis van category
+if (p.category === "kings") {
+  layerKings.addLayer(marker);
+}
+if (p.category === "vikings") {
+  layerVikings.addLayer(marker);
+}
 if (p.category === "vikingkings") {
-    layerVikingKings.addLayer(marker);
-  }
-  if (p.category === "clann") {
-    layerClann.addLayer(marker);
-  }
-  if (p.category === "modern") {
-    layerModern.addLayer(marker);
-  }
-  if (p.category === "normandiers") {
-    layerNormandiers.addLayer(marker);
-  }
+  layerVikingKings.addLayer(marker);
+}
+if (p.category === "clann") {
+  layerClann.addLayer(marker);
+}
+if (p.category === "modern") {
+  layerModern.addLayer(marker);
+}
+if (p.category === "normandiers") {
+  layerNormandiers.addLayer(marker);
+}
 if (p.category === "merovingians") {
   layerMerovingians.addLayer(marker);
-}
+} 
 if (p.category === "vikingline") {
   layerVikingline.addLayer(marker);
 }
-
+if (p.category === "vikinglinerognvald") {
+  layerVikinglineRognvald.addLayer(marker);
+}
+if (p.category === "imperialLine") {
+  layerImperialLine.addLayer(marker);
+}
 
 });
 
@@ -1478,17 +1928,20 @@ L.control.layers(
   null,
   {
     "Alle personen": layerAll,
+    "Imperiale lijn (Rome → Budé → Theo)": layerImperialLine,
     "Keizers & Koningen": layerKings,
     "Vikingen & Noormannen (Rollo-lijn)": layerVikings,
     "Vikingkoningen (Zweden & Denemarken)": layerVikingKings, // NIEUW
+    "Vikinglijn Rognvald": layerVikinglineRognvald,
     "Clann Néill": layerClann,
     "Moderne familie": layerModern,
     "Normandiërs": layerNormandiers,
     "Merovingers & Franken": layerMerovingians,
     "Viking Hoofdlijn (Voorouders)": layerVikingline
-   }
-
+    
+  }
 ).addTo(map);
+
 
 </script>
 
