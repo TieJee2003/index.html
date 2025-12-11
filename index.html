@@ -61,7 +61,7 @@
 
     #familyButton {
       position: absolute;
-      top: 80px;
+      top: 140px;
       left: 15px;
       z-index: 3000; /* boven de Leaflet UI */
     }
@@ -78,6 +78,28 @@
       z-index: 1200;
       font-family: Georgia, serif;
     }
+.top-banner {
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  background: linear-gradient(to right, #f5f0e8, #e6d8c8);
+  border-bottom: 1px solid #c3b39a;
+  font-family: Georgia, "Times New Roman", serif;
+  text-align: center;
+}
+
+.top-banner h1 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.top-banner p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #5e5243;
+}
+
   </style>
 </head>
 
@@ -103,6 +125,12 @@
       >
     </a>
   </div>
+<div class="top-banner">
+  <h1>Interactieve familiekaart – voorouders Seeldraeyers–De Belder</h1>
+  <p>Geografische en historische route van onze voorouders door Europa.</p>
+</div>
+
+<div id="map"></div>
 
   <div id="map"></div>
 
@@ -179,7 +207,7 @@
     years:"1003–1037",
     lat:49.00, lon:1.00,
     note:"Normandische prinses; via haar loopt de brug naar Bourgondië.",
-    category:"imperial"
+    categories:["imperial","hogemiddeleeuwen"]
   },
   {
     name:"Willem I 'de Grote' van Bourgondië",
@@ -187,7 +215,7 @@
     years:"1020–1087",
     lat:47.24, lon:6.02,
     note:"Graaf van Bourgondië; start van de Bourgondische fase in deze tak.",
-    category:"imperial"
+    categories:["imperial","hogemiddeleeuwen"]
   },
   {
     name:"Amalrik III de Montfort-l’Amaury",
@@ -195,23 +223,23 @@
     years:"1070–1137",
     lat:48.78, lon:1.81,
     note:"Franse hoge adel; verweeft Bourgondië met Montfort.",
-    category:"imperial"
+    categories:["imperial","hogemiddeleeuwen"]
   },
   {
     name:"Agnes de Montfort",
     place:"Île-de-France",
     years:"ca 1123–1181",
     lat:48.80, lon:2.25,
-    note:"Brengt de Montfort-bezittingen verder in de vorstelijke netwerken.",
-    category:"imperial"
+    note:"Brengt de Montfort-bezittingen verder in de vorstelijke netwerken. Belangrijke schakel: brengt de Vikinglijn door naar Meulan.",
+    categories:["imperial","vikingline"]
   },
   {
-    name:"Amaury de Meulan",
+    name:"Amaury I de Meulan",
     place:"Meulan-en-Yvelines (Île-de-France)",
     years:"1149–1204",
     lat:49.00, lon:1.92,
-    note:"Sleutelfiguur: hier komt jouw lijn in de Meulan-tak terecht.",
-    category:"imperial"
+    note:"Sleutelfiguur: hier komt onze lijn in de Meulan-tak terecht, directe voorouder van onze bestaande Meulan → des Essarts → Peschart → Budé-lijn, Normandisch-Franse adel.",
+    categories:["imperial","hogemiddeleeuwen","imperialByzantium"]
   },
   {
     name:"Isabeau de Meulan",
@@ -219,7 +247,7 @@
     years:"ca 1192–1230",
     lat:49.00, lon:1.92,
     note:"Verbindt Meulan met de des Essarts-lijn.",
-    category:"imperial"
+    categories:["imperial","hogemiddeleeuwen"]
   },
   {
     name:"Pierre I des Essarts",
@@ -227,15 +255,15 @@
     years:"†1349",
     lat:49.00, lon:1.00,
     note:"Middeleeuwse heer; begin van de des Essarts-fase in deze keten.",
-    category:"imperial"
+    categories:["imperial","latemiddeleeuwen"]
   },
   {
     name:"Jeanne des Essarts",
     place:"Normandië / Noord-Frankrijk",
     years:"ca 1285–",
     lat:49.00, lon:1.00,
-    note:"Via haar schuift de lijn op naar de familie Baillet en Gentien.",
-    category:"imperial"
+    note:"Via haar schuift de lijn op naar de familie Gentien. Dochter van Pierre I des Essarts; verbindt des Essarts en Baillet.",
+    categories:["imperial","latemiddeleeuwen"]
   },
   {
     name:"Jeanne 'la Baillette' Baillet",
@@ -243,7 +271,7 @@
     years:"1330–1367",
     lat:48.80, lon:2.25,
     note:"Bekend als 'la Baillette'; schakel naar de familie Gentien.",
-    category:"imperial"
+    categories:["imperial","latemiddeleeuwen"]
   },
   {
     name:"Jeanne 'la Gentienne' Gentien",
@@ -251,7 +279,7 @@
     years:"ca 1365–ca 1447",
     lat:50.72, lon:2.26,
     note:"'La Gentienne'; verbindt Baillet met Peschart.",
-    category:"imperial"
+    categories:["imperial","latemiddeleeuwen"]
   },
   {
     name:"Jeanne Peschart",
@@ -259,31 +287,15 @@
     years:"ca 1402–1468",
     lat:50.72, lon:2.26,
     note:"Bekende voorouder in jouw lijnen naar Budé en De Neve.",
-    category:"imperial"
-  },
-  {
-    name:"Jean II Budé",
-    place:"Parijs",
-    years:"1430–1501",
-    lat:48.85, lon:2.35,
-    note:"Raadsheer en geleerde; vader van humanist Guillaume Budé.",
-    category:"imperial"
-  },
-  {
-    name:"Guillaume Budé",
-    place:"Parijs",
-    years:"1468–1540",
-    lat:48.85, lon:2.35,
-    note:"Beroemde humanist; cultureel zwaartepunt in je stamboom.",
-    category:"imperial"
+    categories:["imperial","latemiddeleeuwen"]
   },
   {
     name:"Marguerite Budé",
     place:"Parijs",
     years:"1529–1618",
     lat:48.85, lon:2.35,
-    note:"Zij brengt de Budé-lijn naar de familie de Trye.",
-    category:"imperial"
+    note:"Dochter van Guillaume Budé; zij brengt de lijn naar Marie de Trye.",
+    categories:["imperial","imperialromebude"]
   },
   {
     name:"Marie de Trye",
@@ -299,14 +311,6 @@
     years:"1576–1625",
     lat:49.18, lon:0.37,
     note:"Begin van de Normendie-fase in deze imperiale keten.",
-    category:"imperial"
-  },
-  {
-    name:"Michel de Normendie",
-    place:"Normandië",
-    years:"1619–1697",
-    lat:49.18, lon:0.37,
-    note:"Zeventiende-eeuwse Normandische voorouder.",
     category:"imperial"
   },
   {
@@ -349,39 +353,8 @@
     note:"Verbindt Thuret met De Pret Roose de Calesberg.",
     category:"imperial"
   },
-  {
-    name:"Arnould Ferdinand Charles de Pret Roose de Calesberg",
-    place:"Hemiksem / omgeving",
-    years:"1842–1902",
-    lat:51.14518, lon:4.33834,
-    note:"Enige rechtstreekse De Pret-voorouder in deze lijn naar jou.",
-    category:"imperial"
-  },
-  {
-    name:"Josephus Coomans",
-    place:"Hemiksem / omgeving",
-    years:"1874–1956",
-    lat:51.14518, lon:4.33834,
-    note:"Brengt de lijn naar de familie Coomans in de Rupelstreek.",
-    category:"imperial"
-  },
-  {
-    name:"Anna Paulina Coomans",
-    place:"Boom / omgeving",
-    years:"1910–1991",
-    lat:51.0875, lon:4.36806,
-    note:"Grootmoeder-generatie; verbindt Coomans met Seeldraeyers.",
-    category:"imperial"
-  },
-  {
-    name:"Josephus Theodorus Seeldraeyers",
-    place:"Schelle / omgeving",
-    years:"1892–1973",
-    lat:51.13, lon:4.34,
-    note:"Eindpunt van deze Roricon-tak in je kaart: jouw grootvader Josephus T.",
-    category:"imperial"
-  },
-  // ROME – BYZANTIUM – ARMENIË – HONGARIJE – BOURGONDIË – BUDÉ – LIJN
+ 
+       // ROME – BYZANTIUM – ARMENIË – HONGARIJE – BOURGONDIË – BUDÉ – LIJN
       {
         name:"Constantius I Chlorus",
         place:"Nicomedia / Trier (Romeinse Rijk)",
@@ -719,22 +692,6 @@
         category:"imperialRomeBude"
       },
       {
-        name:"Guillaume Budé",
-        place:"Parijs",
-        years:"1468–1540",
-        lat:48.85, lon:2.35,
-        note:"Humanist en geleerde; cultureel hoogtepunt in jouw lijn.",
-        category:"imperialRomeBude"
-      },
-      {
-        name:"Marguerite Budé",
-        place:"Parijs",
-        years:"1529–1618",
-        lat:48.85, lon:2.35,
-        note:"Dochter van Guillaume Budé; brengt de lijn naar Marie de Trye.",
-        category:"imperialRomeBude"
-      },
-      {
         name:"Marie de Trye",
         place:"Noord-Frankrijk",
         years:"1552–1632",
@@ -748,14 +705,6 @@
         years:"1576–1625",
         lat:49.60, lon:3.00,
         note:"Doet de naam Normendie in je lijn verschijnen.",
-        category:"imperialRomeBude"
-      },
-      {
-        name:"Michel de Normendie",
-        place:"Normandië",
-        years:"1619–1697",
-        lat:49.18, lon:0.37,
-        note:"Al aanwezig in je kaart; hier als schakel binnen de imperiale ketting.",
         category:"imperialRomeBude"
       },
       {
@@ -1006,14 +955,7 @@
   note:"Hertog van Limburg via huwelijk; spilfiguur richting jouw Meulan-lijn.",
   category:"imperialByzantium"
 },
-{
-  name:"Amaury I de Meulan",
-  place:"Meulan-en-Yvelines",
-  years:"1149–1204",
-  lat:49.00, lon:1.92,
-  note:"Directe voorouder van jouw bestaande Meulan → des Essarts → Peschart → Budé-lijn.",
-  category:"imperialByzantium"
-},
+
 // === IMPERIALE LIJN – BYZANTIUM → KLEEF → GUÎNES → VAN DER STAPPEN → VAN ACHTER → VAN REETH → BAL → SEELDRAEYERS ===
 
 {
@@ -1396,15 +1338,275 @@
   note:"Brengt de Byzantijns-Kleefse lijn direct naar de familie Seeldraeyers.",
   category:"imperial-kleef"
 },
+
+// === IMPERIAL-KLEEF ZIJTAK – HEUSDEN → HÉNIN → VAN DE WERVE → ROOSE → DE PRET ===
+
 {
-  name:"Josephus Theodorus Seeldraeyers",
-  place:"Schelle / omgeving",
-  years:"1892–1973",
-  lat:51.13, lon:4.34,
-  note:"Knooppunt waar meerdere imperiale lijnen samenkomen; directe vaderlijn-start in de 20e eeuw.",
+  name:"Robbrecht I van Heusden",
+  place:"Heusden (aan de Maas)",
+  years:"(9e eeuw)",
+  lat:51.73, lon:5.13,
+  note:"Vroege heer van Heusden; begin van de Heusden-neventak binnen de imperial-kleef lijn.",
   category:"imperial-kleef"
 },
-      // VROEGE MIDDELEEUWEN – CLANN NÉILL – IERLAND
+{
+  name:"Ada van Cuyck",
+  place:"Cuijk (Cuyck)",
+  years:"(9e eeuw)",
+  lat:51.72, lon:5.88,
+  note:"Verbindt Heusden met de familie van Cuyck.",
+  category:"imperial-kleef"
+},
+{
+  name:"Boudewijn I van Heusden",
+  place:"Heusden (aan de Maas)",
+  years:"† ca 880",
+  lat:51.73, lon:5.13,
+  note:"Zoon in de Heusdense lijn; versterkt de positie aan de Maas.",
+  category:"imperial-kleef"
+},
+{
+  name:"Robrecht II van Heusden",
+  place:"Heusden (aan de Maas)",
+  years:"(10e eeuw)",
+  lat:51.73, lon:5.13,
+  note:"Voortzetting van de Heusdense familie in de 10e eeuw.",
+  category:"imperial-kleef"
+},
+{
+  name:"Edmund van Heusden",
+  place:"Heusden (aan de Maas)",
+  years:"(10e eeuw)",
+  lat:51.73, lon:5.13,
+  note:"Heer uit de Heusdense lijn; weinig bronnen, maar deel van de rechte keten.",
+  category:"imperial-kleef"
+},
+{
+  name:"Johan I van Heusden",
+  place:"Heusden (aan de Maas)",
+  years:"ca 920–956",
+  lat:51.73, lon:5.13,
+  note:"Heer van Heusden in de 10e eeuw.",
+  category:"imperial-kleef"
+},
+{
+  name:"Robrecht III Carloman van Heusden",
+  place:"Heusden (aan de Maas)",
+  years:"† ca 1005",
+  lat:51.73, lon:5.13,
+  note:"Eindpunt van de vroege Heusdense fase; naam 'Carloman' wijst op Frankische connecties.",
+  category:"imperial-kleef"
+},
+{
+  name:"Jan I 'Thierry' van Altena",
+  place:"Altena / Neder-Lotharingen",
+  years:"† 1043",
+  lat:51.73, lon:5.12,
+  note:"Brengt de lijn van Heusden naar het huis van Altena.",
+  category:"imperial-kleef"
+},
+{
+  name:"Jan II van Altena",
+  place:"Altena / Neder-Lotharingen",
+  years:"† na 1105",
+  lat:51.73, lon:5.12,
+  note:"Voortzetting van de Altena-lijn.",
+  category:"imperial-kleef"
+},
+{
+  name:"Dirk I van Altena",
+  place:"Altena / Neder-Lotharingen",
+  years:"ca 1105–1172",
+  lat:51.73, lon:5.12,
+  note:"Altena-heer; overgangsfiguur naar de Montbéliard-verbinding.",
+  category:"imperial-kleef"
+},
+{
+  name:"Dirk II (Dietrich) van Altena (de Montbéliard)",
+  place:"Altena / Montbéliard",
+  years:"1130–1189",
+  lat:47.51, lon:6.80,
+  note:"Bekend als de Montbéliard; verbindt Altena met de Franche-Comté.",
+  category:"imperial-kleef"
+},
+{
+  name:"Heilwig van Altena",
+  place:"Altena / Rijnland",
+  years:"(12e eeuw)",
+  lat:51.73, lon:5.12,
+  note:"Via haar verschuift de lijn naar het huis van Horne.",
+  category:"imperial-kleef"
+},
+{
+  name:"Willem II van Horne",
+  place:"Horne (Maasland)",
+  years:"1240–1304",
+  lat:51.19, lon:5.87,
+  note:"Heer van Horne; belangrijke Maaslandse edelman.",
+  category:"imperial-kleef"
+},
+{
+  name:"Margaretha van Horne",
+  place:"Horne (Maasland)",
+  years:"1278–1328",
+  lat:51.19, lon:5.87,
+  note:"Verbindt Horne met de familie De Wierre.",
+  category:"imperial-kleef"
+},
+{
+  name:"Isabeau 'de Mastaing' de Wierre",
+  place:"Wierre / Artesië",
+  years:"1315–",
+  lat:50.79, lon:1.75,
+  note:"Ook gekend als 'de Mastaing'; schakelfiguur in Artesië.",
+  category:"imperial-kleef"
+},
+{
+  name:"Isabelle 'de Campinghem' le Prévost",
+  place:"Noord-Frankrijk",
+  years:"1355–",
+  lat:50.50, lon:2.50,
+  note:"'de Campinghem'; verbindt De Wierre met de familie Mez / Croix.",
+  category:"imperial-kleef"
+},
+{
+  name:"Jean VI de Mez (de Croix-le Prévost)",
+  place:"Croix / Noord-Frankrijk",
+  years:"ca 1375–1442",
+  lat:50.68, lon:3.15,
+  note:"Heer in de regio Croix; stamvader van de Mez-de Croix-le Prévost-lijn.",
+  category:"imperial-kleef"
+},
+{
+  name:"Isabeau de Mez de Croix-le Prévost",
+  place:"Croix / Noord-Frankrijk",
+  years:"ca 1430–ca 1515",
+  lat:50.68, lon:3.15,
+  note:"Verbindt Mez-de Croix met Hénin-Liétard.",
+  category:"imperial-kleef"
+},
+{
+  name:"Agnès du Mez de Croix (de la Tannerie)",
+  place:"Croix / Noord-Frankrijk",
+  years:"ca 1440–",
+  lat:50.68, lon:3.15,
+  note:"Zijtak binnen de Mez-de Croix-familie; moeder in de Hénin-Liétard-lijn.",
+  category:"imperial-kleef"
+},
+{
+  name:"Jean III de Hénin-Liétard",
+  place:"Hénin-Liétard (Hénin-Beaumont)",
+  years:"† 1498",
+  lat:50.42, lon:2.96,
+  note:"Vroeg lid van het huis Hénin-Liétard; verbindt met de Mez-lijn.",
+  category:"imperial-kleef"
+},
+{
+  name:"Jehanne de Langlée",
+  place:"Noord-Frankrijk",
+  years:"(15e eeuw)",
+  lat:50.50, lon:3.00,
+  note:"Echtgenote in de Hénin-Liétard-lijn.",
+  category:"imperial-kleef"
+},
+{
+  name:"Antoine I de Hénin-Liétard",
+  place:"Hénin-Liétard",
+  years:"(15e eeuw)",
+  lat:50.42, lon:2.96,
+  note:"Voortzetting van de Hénin-Liétard-familie.",
+  category:"imperial-kleef"
+},
+{
+  name:"Jean V de Hénin-Liétard",
+  place:"Hénin-Liétard",
+  years:"† 1597",
+  lat:50.42, lon:2.96,
+  note:"Belangrijke figuur aan het einde van de 16e eeuw.",
+  category:"imperial-kleef"
+},
+{
+  name:"Jacques le Prévost",
+  place:"Noord-Frankrijk",
+  years:"(16e eeuw)",
+  lat:50.50, lon:3.00,
+  note:"Uit de familie le Prévost; sluit aan op de Basserode-tak.",
+  category:"imperial-kleef"
+},
+{
+  name:"Anne Jeanne le Prévost de Basserode",
+  place:"Noord-Frankrijk",
+  years:"† 1584",
+  lat:50.50, lon:3.00,
+  note:"'de Basserode'; versterkt de band tussen le Prévost en Hénin.",
+  category:"imperial-kleef"
+},
+{
+  name:"Françoise de Hénin-Liétard",
+  place:"Noord-Frankrijk",
+  years:"1555–1630",
+  lat:50.50, lon:3.00,
+  note:"Brengt de Hénin-Liétard-lijn naar Hainin.",
+  category:"imperial-kleef"
+},
+{
+  name:"Philippe III de Hainin",
+  place:"Henegouwen / Hainin",
+  years:"1595–1649",
+  lat:50.40, lon:3.72,
+  note:"Heer van Hainin; overgang naar de familie Varick.",
+  category:"imperial-kleef"
+},
+{
+  name:"Eléonore Louise de Hainin",
+  place:"Henegouwen / Hainin",
+  years:"† 1692",
+  lat:50.40, lon:3.72,
+  note:"Verbindt Hainin met de familie de Varick.",
+  category:"imperial-kleef"
+},
+{
+  name:"Eléonore Louise de Varick",
+  place:"Varik / Nederlanden",
+  years:"1669–1714",
+  lat:51.82, lon:5.37,
+  note:"Brengt de lijn van Hainin naar de familie Van de Werve.",
+  category:"imperial-kleef"
+},
+{
+  name:"Charles Philippe Henri Jean Baptiste van de Werve (de Schilde)",
+  place:"Schilde / Antwerpen",
+  years:"1706–1776",
+  lat:51.24, lon:4.56,
+  note:"Adel van de Werve de Schilde; sterke Antwerpse connectie.",
+  category:"imperial-kleef"
+},
+{
+  name:"Marie Anne Josèphe van de Werve",
+  place:"Schilde / Antwerpen",
+  years:"1742–1798",
+  lat:51.24, lon:4.56,
+  note:"Verbindt Van de Werve met de familie Roose.",
+  category:"imperial-kleef"
+},
+{
+  name:"Jeanne Marie Josephe 'de Baisy' Roose",
+  place:"Baisy / Brabant",
+  years:"1770–1832",
+  lat:50.62, lon:4.44,
+  note:"Roose-tak; 'de Baisy' verwijst naar Baisy-Thy.",
+  category:"imperial-kleef"
+},
+{
+  name:"Jacques Charles Louis Joseph de Pret Roose de Calesberg",
+  place:"Antwerpen / Calesberg",
+  years:"1802–1891",
+  lat:51.22, lon:4.40,
+  note:"Belangrijke De Pret Roose de Calesberg-voorouder; directe voorvader van Arnould Ferdinand Charles.",
+  category:"imperial-kleef"
+},
+
+       // VROEGE MIDDELEEUWEN – CLANN NÉILL – IERLAND
       {
         name:"Niall Noígíallach",
         place:"Tara (Ierland)",
@@ -1495,14 +1697,6 @@
         lat:48.78, lon:1.81,
         note:"Grote Franse ridderlijke tak."
       },
-      {
-        name:"Amaury de Meulan",
-        place:"Meulan-en-Yvelines",
-        years:"1149–1204",
-        lat:49.00, lon:1.92,
-        note:"Normandisch-Franse adel."
-      },
-
       {
         name:"Eystein 'Glumra' (de Donkere) Jarl",
         place:"Oppland & Hedmark (Noorwegen)",
@@ -1623,32 +1817,8 @@
         place:"Beaumont-sur-Oise",
         years:"ca 1114–1177",
         lat:49.14, lon:2.28,
-        note:"Sleutelfiguur in de overgang naar Meulan.",
-        category:"vikingline"
-      },
-      {
-        name:"Agnes de Montfort",
-        place:"Île-de-France",
-        years:"ca 1123–1181",
-        lat:48.80, lon:2.25,
-        note:"Belangrijke schakel: brengt de Vikinglijn door naar Meulan.",
-        category:"vikingline"
-      },
-      {
-        name:"Adèle de Luzarche",
-        place:"Luzarches (Île-de-France)",
-        years:"ca 1163–1200",
-        lat:49.11, lon:2.42,
-        note:"Moeder van Amaury de Meulan; sluit de Vikinghoofdlijn af.",
-        category:"vikingline"
-      },
-
-      {
-        name:"Pierre I des Essarts",
-        place:"Normandië",
-        years:"†1349",
-        lat:49.00, lon:1.00,
-        note:"Late middeleeuwse fase."
+        note:"Sleutelfiguur in de overgang naar Meulan, zoon van Mathieu I; verbindt met Isabeau de Meulan.",
+        categories:["vikingline","karolingen"]
       },
       {
         name:"Jeanne Peschart",
@@ -1657,22 +1827,143 @@
         lat:50.50, lon:2.50,
         note:"Bekend uit onze genealogische lijn; schakel in de lijn Niall → Theo en Jacqueline."
       },
+// === IBERISCHE IMPERIALE LIJN – ASTURIË → CASTILIË → DE PRET → SEELDRAEYERS ===
 
-      // --- KAROLINGISCHE LIJN: PEPIJN → KAREL DE GROTE → THEO ---
+{ name:"Ramiro I van Asturië",
+  place:"Oviedo (Asturië, Spanje)",
+  years:"790–850",
+  lat:43.36, lon:-5.85,
+  note:"Koning van Asturië; begin van de christelijke Reconquista-dynastie.",
+  category:"iberian" },
+
+{ name:"Ordoño I van Asturië",
+  place:"Oviedo (Asturië)",
+  years:"830–866",
+  lat:43.36, lon:-5.85,
+  category:"iberian" },
+
+{ name:"Alfonso III 'de Grote' van Asturië",
+  place:"Oviedo",
+  years:"848–910",
+  lat:43.36, lon:-5.85,
+  note:"Grootste Asturische koning; expansie richting León.",
+  category:"iberian" },
+
+{ name:"Ordoño II van León",
+  place:"León (Spanje)",
+  years:"873–924",
+  lat:42.60, lon:-5.57,
+  category:"iberian" },
+
+{ name:"Ramiro II van León",
+  place:"León",
+  years:"900–951",
+  lat:42.60, lon:-5.57,
+  category:"iberian" },
+
+{ name:"Bermudo II 'El Gotoso' van León",
+  place:"León",
+  years:"950–999",
+  lat:42.60, lon:-5.57,
+  category:"iberian" },
+
+{ name:"Alfonso V van León",
+  place:"León",
+  years:"994–1028",
+  lat:42.60, lon:-5.57,
+  category:"iberian" },
+
+{ name:"Sancha van León",
+  place:"León",
+  years:"1013–1067",
+  lat:42.60, lon:-5.57,
+  category:"iberian" },
+
+{ name:"Alfonso VI van Castilië & León",
+  place:"Toledo / León",
+  years:"1040–1109",
+  lat:39.86, lon:-4.02,
+  note:"Veroveraar van Toledo; sleutelkoning in de Iberische geschiedenis.",
+  category:"iberian" },
+
+{ name:"Urraca van Castilië-León",
+  place:"León",
+  years:"1082–1126",
+  lat:42.60, lon:-5.57,
+  category:"iberian" },
+
+{ name:"Alfonso VII van León & Castilië",
+  place:"León",
+  years:"1105–1157",
+  lat:42.60, lon:-5.57,
+  note:"Keizer van Hispania (Imperator totius Hispaniae).",
+  category:"iberian" },
+
+{ name:"Berengaria van Castilië",
+  place:"Castilië",
+  years:"1180–1246",
+  lat:41.65, lon:-4.72,
+  category:"iberian" },
+
+{ name:"Blanche van Castilië",
+  place:"Castilië / Frankrijk",
+  years:"1188–1252",
+  lat:48.85, lon:2.35,
+  note:"Koningin van Frankrijk; brug naar Capetingers & Vlaanderen.",
+  category:"iberian" },
+
+{ name:"Mahaut (Mathilde) de Fiennes",
+  place:"Artesië",
+  years:"1266–1324",
+  lat:50.29, lon:2.78,
+  category:"iberian" },
+
+{ name:"Marie de Landas",
+  place:"Landas (Vlaanderen)",
+  years:"ca 1280–",
+  lat:50.47, lon:3.29,
+  category:"iberian" },
+
+{ name:"Jean de Landas",
+  place:"Vlaanderen",
+  years:"ca 1310–",
+  lat:50.47, lon:3.29,
+  category:"iberian" },
+
+{ name:"Marguerite de Landas",
+  place:"Vlaanderen",
+  years:"ca 1350–",
+  lat:50.47, lon:3.29,
+  category:"iberian" },
+
+{ name:"Michel de la Vacquerie",
+  place:"Artesië",
+  years:"ca 1370–",
+  lat:50.40, lon:2.75,
+  category:"iberian" },
+
+{ name:"Jean de Normendie",
+  place:"Normandië",
+  years:"1544–1616",
+  lat:49.18, lon:0.37,
+  category:"iberian" },
+
+       // --- KAROLINGISCHE LIJN: PEPIJN → KAREL DE GROTE → THEO ---
       {
         name:"Pepijn III 'de Korte' der Franken",
         place:"Frankische Rijk (regio Aken)",
         years:"ca 714–768",
         lat:50.78, lon:6.08,
         note:"Koning der Franken; vader van Karel de Grote.",
-        category:"kings"
+        categories:["kings","karolingen"]
       },
       {
         name:"Bertrada II 'Bertha met de Grote Voet' van Laon",
         place:"Laon",
         years:"720–783",
         lat:49.56, lon:3.62,
-        note:"Frankische edelvrouw; echtgenote van Pepijn de Korte."
+        note:"Frankische edelvrouw; echtgenote van Pepijn de Korte.",
+        categories:["karolingen"]
       },
       {
         name:"Karloman I Martel",
@@ -1680,7 +1971,7 @@
         years:"751–771",
         lat:49.0, lon:6.0,
         note:"Zoon van Pepijn de Korte; broer van Karel de Grote.",
-        category:"kings"
+        categories:["kings","karolingen"]
       },
       {
         name:"Lodewijk I 'de Vrome' der Franken",
@@ -1688,21 +1979,23 @@
         years:"778–840",
         lat:50.11, lon:8.68,
         note:"Zoon van Karel de Grote; koning en keizer.",
-        category:"kings"
+        categories:["kings","karolingen"]
       },
       {
         name:"Adelaide 'Heilige Ida' van Herzfeld",
         place:"Herzfeld (Westfalen)",
         years:"†825",
         lat:51.69, lon:7.91,
-        note:"Heilige en Frankische edelvrouw; verbonden met de Karolingische hofkringen."
+        note:"Heilige en Frankische edelvrouw; verbonden met de Karolingische hofkringen.",
+        categories:["karolingen"]
       },
       {
         name:"Gisela, dochter van Lodewijk de Vrome",
         place:"Frankische Rijk",
         years:"ca 821–874",
         lat:48.0, lon:7.0,
-        note:"Karolingische prinses; schakel in de lijn Pepijn → Theo."
+        note:"Karolingische prinses; schakel in de lijn Pepijn → Theo.",
+        categories:["karolingen"]
       },
       {
         name:"Haduwey (Hedwig) van Herford",
@@ -1744,7 +2037,8 @@
         place:"Dammartin-en-Goële",
         years:"ca 945–ca 970",
         lat:49.05, lon:2.67,
-        note:"Noord-Franse edelvrouw; schakel in je Karolingische lijn."
+        note:"Noord-Franse edelvrouw; schakel in je Karolingische lijn.", 
+        categories:["karolingen"]
       },
       {
         name:"Herman I van Saksen-Billung",
@@ -1845,18 +2139,12 @@
         note:"Heer van Beaumont; begin van de Beaumont-lijn in je stamboom."
       },
       {
-        name:"Mathieu II de Beaumont-sur-Oise",
-        place:"Beaumont-sur-Oise",
-        years:"ca 1114–1177",
-        lat:49.14, lon:2.29,
-        note:"Zoon van Mathieu I; verbindt met Isabeau de Meulan."
-      },
-      {
         name:"Adèle de Luzarche",
         place:"Luzarches",
         years:"ca 1163–ca 1200",
         lat:49.11, lon:2.42,
-        note:"Noord-Franse edelvrouw; tak naar Meulan."
+        note:"Noord-Franse edelvrouw; tak naar Meulan. Moeder van Amaury de Meulan; sluit de Vikinghoofdlijn af.",
+        categories:["vikingline","karolingen"]
       },
       {
         name:"Isabeau de Meulan",
@@ -1909,13 +2197,6 @@
         years:"ca 1285–",
         lat:50.81, lon:4.17,
         note:"Brabantse edelvrouw; schakel tussen Luxemburg en de Lage Landen."
-      },
-      {
-        name:"Jeanne des Essarts",
-        place:"Normandië / Île-de-France",
-        years:"ca 1285–",
-        lat:49.00, lon:1.00,
-        note:"Dochter van Pierre I des Essarts; verbindt des Essarts en Baillet."
       },
       {
         name:"Jeanne 'la Baillette' Baillet",
@@ -2171,7 +2452,7 @@
         years:"747–814",
         lat:50.78, lon:6.08,
         note:"Frankisch koning en keizer; centrale Karolingische voorouderfiguur.",
-        category:"kings"
+        categories:["kings","karolingen"]
       },
       {
         name:"Karel III 'de Eenvoudige' van Frankrijk (West-Frankië)",
@@ -2179,14 +2460,15 @@
         years:"879–929",
         lat:49.56, lon:3.62,
         note:"Karolingische koning; je lijn raakt hier de Karolingers.",
-        category:"kings"
+        categories:["kings","karolingen"]
       },
       {
         name:"Maud de Gamaches",
         place:"Gamaches (Normandië / Picardië)",
         years:"ca 916–ca 960",
         lat:49.96, lon:1.58,
-        note:"Regionale adel in Noord-Frankrijk."
+        note:"Regionale adel in Noord-Frankrijk.",
+        categories:["karolingen"]
       },
       {
         name:"Guillaume I de Ponthieu d’Abbeville",
@@ -2215,7 +2497,7 @@
         years:"920–954",
         lat:49.26, lon:4.03,
         note:"Keert 'overzee' terug uit Engeland; Karolingische koning in je lijn.",
-        category:"kings"
+        categories:["kings","karolingen"]
       },
       {
         name:"Gerberga van Saksen",
@@ -2416,7 +2698,7 @@
         years:"1165–1235",
         lat:50.88, lon:4.70,
         note:"Belangrijk hertog in je Brabantse voorouderlijn.",
-        category:"kings"
+        categories:["kings"]
       },
       {
         name:"Ermesinde van Namen en Luxemburg",
@@ -2453,7 +2735,8 @@
         place:"Parijs",
         years:"1430–1501",
         lat:48.85, lon:2.35,
-        note:"Raadsheer en geleerde, vader van Guillaume Budé."
+        note:"Raadsheer en geleerde, vader van Guillaume Budé.",
+        categories:["imperial-kleef","iberian","imperial","imperialromebude"]
       },
       {
         name:"Cathérine le Picart de Plateville",
@@ -2467,7 +2750,8 @@
         place:"Parijs",
         years:"1468–1540",
         lat:48.85, lon:2.35,
-        note:"Beroemde humanist; belangrijk cultuurhistorisch anker in onze stamboom."
+        note:"Beroemde humanist; belangrijk cultuurhistorisch anker in onze stamboom.",
+        categories:["imperial-kleef","iberian","imperial","imperialromebude"]
       },
       {
         name:"Lijsbeth van Overstraeten",
@@ -2565,7 +2849,7 @@
         category:"normandiers"
       },
 
-      // === ZWEEDSE & DEENSE VIKINGKONINGEN – HARALD BLAUWTAND DYNATIE ===
+      // === ZWEEDSE & DEENSE VIKINGKONINGEN – HARALD BLAUWTAND DYNASTIE ===
       {
         name:"Sigurd Hring",
         place:"Uppsala (Zweden)",
@@ -2694,8 +2978,10 @@
         place:"Normandië (Frankrijk)",
         years:"1619–1697",
         lat:49.18, lon:0.37,
-        note:"Normandische tak in de 17e eeuw."
-      },
+        note:"Normandische tak in de 17e eeuw, schakel binnen de imperiale ketting, Normandische voorouder.",
+        categories:["imperial","imperialromebude","iberian"]
+       },
+
       {
         name:"Theodora Tronchin",
         place:"Regio Genève / Zwitserland (Tronchin-familie)",
@@ -2768,14 +3054,14 @@
       },
 
       // MODERNE TIJD: COOMANS, ROGGEN, ROSA
-      {
-        name:"Arnould Ferdinand Charles de Pret Roose de Calesberg",
-        place:"Hemiksem / omgeving",
-        years:"1842–1902",
-        lat:51.14518, lon:4.33834,
-        note:"Adellijke tak in de 19e eeuw.",
-        category:"modern"
-      },
+{
+       name:"Arnould Ferdinand Charles de Pret Roose de Calesberg",
+  place:"Hemiksem / omgeving",
+  years:"1842–1902",
+  lat:51.14518, lon:4.33834,
+  note:"Knooppunt van meerdere lijnen (imperial-Kleef, Iberisch, moderne familie).",
+  categories:["imperial-kleef","iberian","modern"]
+},
       {
         name:"Sophia Coomans",
         place:"Hemiksem / omgeving",
@@ -2790,7 +3076,7 @@
         years:"1874–1956",
         lat:51.14518, lon:4.33834,
         note:"Verbindt de 19e-eeuwse generaties met de 20e eeuw.",
-        category:"modern"
+        categories:["imperial-kleef","iberian","modern"]
       },
       {
         name:"Maria Leonia Cools",
@@ -2806,7 +3092,7 @@
         years:"1902–Jan 1959",
         lat:51.14518, lon:4.33834,
         note:"Schakel naar de familie De Saer",
-        category:"modern"
+        categories:["imperial-kleef","iberian","modern"]
       },
       {
         name:"Pieter Jozef De Saer",
@@ -2838,7 +3124,7 @@
         years:"1910–1991",
         lat:51.0875, lon:4.36806,
         note:"Schakel naar de familie Roggen.",
-        category:"modern"
+        categories:["imperial-kleef","iberian","modern"]
       },
       {
         name:"Hendrik Jan Roggen",
@@ -2854,15 +3140,15 @@
         years:"1934–2022",
         lat:51.0875, lon:4.36806,
         note:"Recente generatie; directe voorouder in de Seeldraeyers–De Belder familiegeschiedenis.",
-        category:"modern"
+        categories:["imperial-kleef","iberian","modern"]
       },
       {
         name:"Josephus Theodorus Seeldraeyers",
         place:"Schelle / omgeving",
         years:"1892–1973",
         lat:51.13, lon:4.34,
-        note:"Introduceert de familienaam Seeldraeyers in de directe lijn. \nDirecte vaderlijn (startpunt).",
-        category:"modern"
+        note:"Introduceert de familienaam Seeldraeyers in de directe lijn. Knooppunt waar meerdere imperiale lijnen samenkomen; directe vaderlijn-start in de 20e eeuw.",
+        categories:["imperial-kleef","modern"]
       },
       {
         name:"Joanna Louisa Mathilda Verdickt",
@@ -2878,23 +3164,23 @@
         years:"1928–2022",
         lat:51.14518, lon:4.33834,
         note:"Directe vaderlijn.",
-        category:"modern"
+        categories:["imperial-kleef","modern"]
       },
       {
-        name:"Theo Seeldraeyers",
+        name:"Theo Henri Seeldraeyers",
         place:"Puurs",
         years:"1952 (levend)",
         lat:51.08, lon:4.28,
-        note:"Genealoog en samensteller van de familiekaart. \nDirecte vaderlijn (Seeldraeyers).",
-        category:"modern"
+        note:"Genealoog en samensteller van de familiekaart. Moderne drager van de Iberisch-imperiale afstamming. \nDirecte vaderlijn (Seeldraeyers).",
+        categories:["imperial-kleef","iberian","modern"]
       },
       {
         name:"Jacqueline Mathilde De Belder",
         place:"Puurs",
         years:"1951 (levend)",
         lat:51.08, lon:4.28,
-        note:"Partner van Theo; moderne generatie in de familiegeschiedenis.",
-        category:"modern"
+        note:"Partner van Theo; deelt voorouderlijn met Theo via Josephus Coomans, moderne generatie in de familiegeschiedenis.",
+        categories:["imperial-kleef","iberian","modern"]
       }
       ];
 
@@ -2929,6 +3215,25 @@
     var layerImperialRomeBude  = L.markerClusterGroup();
     var layerImperialByzantium = L.markerClusterGroup();
     var layerImperialKleef = L.markerClusterGroup();
+    var layerIberian = L.markerClusterGroup();
+    var layerKarolingen = L.markerClusterGroup();
+    var layerVroegeMiddeleeuwen = L.markerClusterGroup();
+    var layerHogeMiddeleeuwen = L.markerClusterGroup();
+    var layerLateMiddeleeuwen = L.markerClusterGroup();
+    // === VERBINDING THEO & JACQUELINE VIA JOSEPHUS COOMANS ===
+    var layerTheoJacqueline = L.layerGroup();
+  
+  function getCategories(p) {
+  // Nieuwe manier: p.categories = ["imperial-kleef","iberian",...]
+  if (Array.isArray(p.categories)) return p.categories;
+
+  // Oude manier: p.category = "kings"
+  if (typeof p.category === "string") return [p.category];
+
+  // Geen categorie
+  return [];
+}
+
 
     people.forEach(function(p) {
       var pClass = periodClass(p.years, p.category);
@@ -2938,6 +3243,25 @@
         className: '',
         iconSize: [12, 12]
       });
+// Coördinaten
+var josephusCoomans = [51.14518, 4.33834];
+var theo = [51.08, 4.28];
+var jacqueline = [51.08, 4.28];
+
+// Gestreepte verbindingslijnen
+var lineToTheo = L.polyline(
+  [josephusCoomans, theo],
+  { color:"#6a0dad", weight:2, dashArray:"4 4" }
+);
+
+var lineToJacqueline = L.polyline(
+  [josephusCoomans, jacqueline],
+  { color:"#6a0dad", weight:2, dashArray:"4 4" }
+);
+
+// Toevoegen aan laag
+layerTheoJacqueline.addLayer(lineToTheo);
+layerTheoJacqueline.addLayer(lineToJacqueline);
 
       var marker = L.marker([p.lat, p.lon], { icon: icon });
 
@@ -2950,47 +3274,64 @@
       marker.bindPopup(popupHtml);
 
       // Algemene laag
-      layerAll.addLayer(marker);
+layerAll.addLayer(marker);
 
-      // Extra lagen op basis van category
-      if (p.category === "kings") {
-        layerKings.addLayer(marker);
-      }
-      if (p.category === "vikings") {
-        layerVikings.addLayer(marker);
-      }
-      if (p.category === "vikingkings") {
-        layerVikingKings.addLayer(marker);
-      }
-      if (p.category === "clann") {
-        layerClann.addLayer(marker);
-      }
-      if (p.category === "modern") {
-        layerModern.addLayer(marker);
-      }
-      if (p.category === "normandiers") {
-        layerNormandiers.addLayer(marker);
-      }
-      if (p.category === "merovingians") {
-        layerMerovingians.addLayer(marker);
-      }
-      if (p.category === "vikingline") {
-        layerVikingline.addLayer(marker);
-      }
-      if (p.category === "vikinglinerognvald") {
-        layerVikinglineRognvald.addLayer(marker);
-      }
-      if (p.category === "imperialRomeBude") {
-        layerImperialRomeBude.addLayer(marker);
-      }
-      if (p.category === "imperialByzantium") {
-        layerImperialByzantium.addLayer(marker);
-      }
-      if (p.category === "imperial-kleef") {
-        layerImperialKleef.addLayer(marker);
-      }
+// Categorieën ophalen (nieuw + oud ondersteund)
+var cats = getCategories(p);
 
-    });
+// Extra lagen op basis van categories-array
+if (cats.includes("kings")) {
+  layerKings.addLayer(marker);
+}
+if (cats.includes("vikings")) {
+  layerVikings.addLayer(marker);
+}
+if (cats.includes("vikingkings")) {
+  layerVikingKings.addLayer(marker);
+}
+if (cats.includes("clann")) {
+  layerClann.addLayer(marker);
+}
+if (cats.includes("modern")) {
+  layerModern.addLayer(marker);
+}
+if (cats.includes("normandiers")) {
+  layerNormandiers.addLayer(marker);
+}
+if (cats.includes("merovingians")) {
+  layerMerovingians.addLayer(marker);
+}
+if (cats.includes("vikingline")) {
+  layerVikingline.addLayer(marker);
+}
+if (cats.includes("vikinglinerognvald")) {
+  layerVikinglineRognvald.addLayer(marker);
+}
+if (cats.includes("imperialRomeBude")) {
+  layerImperialRomeBude.addLayer(marker);
+}
+if (cats.includes("imperialByzantium")) {
+  layerImperialByzantium.addLayer(marker);
+}
+if (cats.includes("imperial-kleef")) {
+  layerImperialKleef.addLayer(marker);
+}
+if (cats.includes("iberian")) {
+  layerIberian.addLayer(marker);
+}
+if (cats.includes("karolingen")) {
+  layerKarolingen.addLayer(marker);
+}
+if (cats.includes("vroegemiddeleeuwen")) {
+  layerVroegeMiddeleeuwen.addLayer(marker);
+}
+if (cats.includes("hogemiddeleeuwen")) {
+  layerHogeMiddeleeuwen.addLayer(marker);
+}
+if (cats.includes("latemiddeleeuwen")) {
+  layerLateMiddeleeuwen.addLayer(marker);
+}
+});
 
     map.addLayer(layerAll);
 
@@ -3002,17 +3343,23 @@
         "Imperiale lijn (Rome → Budé → Theo)": layerImperialRomeBude,
         "Imperiale lijn (Byzantium → Europa)": layerImperialByzantium,
         "Imperiale lijn – Byzantium → Kleef": layerImperialKleef,
+        "Iberisch-Imperiale Lijn (Asturië–Castilië)": layerIberian,
+        "Clann Néill": layerClann,
+        "Merovingers & Franken": layerMerovingians,
+        "Karolingen Hoofdlijn (Voorouders)": layerKarolingen,
         "Keizers & Koningen": layerKings,
         "Vikingen & Noormannen (Rollo-lijn)": layerVikings,
         "Vikingkoningen (Zweden & Denemarken)": layerVikingKings,
         "Vikinglijn Rognvald": layerVikinglineRognvald,
-        "Clann Néill": layerClann,
-        "Moderne familie": layerModern,
+        "Viking Hoofdlijn (Voorouders)": layerVikingline,
         "Normandiërs": layerNormandiers,
-        "Merovingers & Franken": layerMerovingians,
-        "Viking Hoofdlijn (Voorouders)": layerVikingline
-        
-       }
+        "Vroege Middeleeuwen": layerVroegeMiddeleeuwen,
+        "Hoge Middeleeuwen": layerHogeMiddeleeuwen,
+        "Late Middeleeuwen": layerLateMiddeleeuwen,
+        "Moderne familie": layerModern,
+        "Verbinding Theo & Jacqueline via J. Coomans": layerTheoJacqueline
+
+      }
     ).addTo(map);
   </script>
 </body>
