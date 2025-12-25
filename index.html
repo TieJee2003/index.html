@@ -45,24 +45,33 @@
     }
 
     /* Kleine ronde marker-iconen als HTML-divs */
-    .circle-icon {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      border: 2px solid white;
-      box-shadow: 0 0 2px rgba(0,0,0,0.5);
-    }
-
-    .period-early    { background:#1f77b4; } /* tot 1000 */
-    .period-high     { background:#2ca02c; } /* 1000–1300 */
-    .period-modern   { background:#ff7f0e; } /* 1300–1800 */
-    .period-late     { background:#d62728; } /* na 1800 */
-    .period-imperial { background:#6a0dad; } /* klassiek imperiaal paars */
-    .onze-mensen-burgerlijke-lijn { background:#B87333; } /* nieuwe tijd tot heden */
-    .period-onze-mensen {
-     background: #b87333; /* koper */
+.circle-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 2px rgba(0,0,0,0.5);
 }
 
+/* Perioden */
+.circle-icon.period-early    { background:#1f77b4; } /* tot 1000 */
+.circle-icon.period-high     { background:#2ca02c; } /* 1000–1300 */
+.circle-icon.period-modern   { background:#ff7f0e; } /* 1300–1800 */
+.circle-icon.period-late     { background:#d62728; } /* na 1800 */
+.circle-icon.period-imperial { background:#6a0dad; } /* klassiek imperiaal paars */
+
+/* Onze mensen */
+.circle-icon.onze-mensen-burgerlijke-lijn { background:#B87333; }
+.circle-icon.period-onze-mensen           { background:#b87333; }
+
+/* Mythische laag */
+.circle-icon.mythisch-traditie {
+  background:#ba55d3; /* tot 500 */
+}
+.circle-icon.mythisch-traditie,
+.circle-icon.mythisch_traditie {
+  background:#ba55d3;
+}
 
     #familyButton {
       position: absolute;
@@ -138,12 +147,14 @@
 <div id="map"></div>
 
   <div class="legend">
+    
     <div><span style="background:#1f77b4;"></span>Vroege middeleeuwen (tot 1000)</div>
     <div><span style="background:#2ca02c;"></span>Hoge middeleeuwen (1000–1300)</div>
     <div><span style="background:#ff7f0e;"></span>Nieuwe tijd (1300–1800)</div>
     <div><span style="background:#d62728;"></span>Moderne tijd (na 1800)</div>
     <div><span style="background:#6a0dad;"></span>Imperiale lijn (Rome → Armenië → Bourgondië → Budé → Theo)</div>
     <div><span style="background:#B87333;"></span>Onze mensen - Burgerlijke lijn - Families van boeren, ambachtslieden en burgers.</div>
+    <div><span style="background:#ba55d3;"></span>Mythisch - traditie - overleveringen)</div>
   </div>
 
   <div class="copyright">
@@ -179,7 +190,7 @@ IMPERIALE & ADELIJKE LIJNEN
 - "imperial_oost"
 - "iberian"
 
-VROEGE DYNSTIEËN
+VROEGE DYNASTIEËN
 - "merovingians"
 - "karolingen"
 - "clann"
@@ -192,6 +203,7 @@ NOORDEN & VIKINGWERELD
 - "normandiers"
 
 PERIODES (tijdslagen – visueel & logisch)
+- "myhthic_tradition"
 - "vroege_middeleeuwen"
 - "hoge_middeleeuwen"
 - "late_middeleeuwen"
@@ -1869,6 +1881,24 @@ Bronnen worden getoetst, niet dogmatisch gevolgd.
   note:"Belangrijke De Pret Roose de Calesberg-voorouder; directe voorvader van Arnould Ferdinand Charles.",
   categories:["imperial_kleef"]
 },
+
+       // VROEGE MIDDELEEUWEN OVERGANG TUSSEN MYTHE EN HISTORIE
+      { 
+        name:"Muiriedhach Tireach",
+        place:"Ierland",
+        years:"ca 280–326",
+        lat:53.58, lon:-6.61,
+        note:"Mythisch-traditionele genealogie. Gebaseerd op middeleeuwse Brits-Ierse kronieken. Historische genealogie vangt aan bij Niall Noígíallach.",
+        categories:["mythisch_traditie"]
+      },
+      { 
+        name:"Eochaidh Muigh Mheadoin",
+        place:"Ierland",
+        years:"ca 325–abt 380",
+        lat:53.58, lon:-6.61,
+        note:"Mythisch-traditionele genealogie. Gebaseerd op middeleeuwse Brits-Ierse kronieken. Historische genealogie vangt aan bij Niall Noígíallach.",
+        categories:["mythisch_traditie"]
+      },
 
        // VROEGE MIDDELEEUWEN – CLANN NÉILL – IERLAND
       {
@@ -4998,21 +5028,29 @@ function dedupePeopleByName(people) {
 people = dedupePeopleByName(people);
 
 // Hulpfunctie: periodekleur -> CSS-class
-    function periodClass(years, category) {
-      // Imperiale lijnen altijd paars
-      if (category === "imperial_rome_bude" || category === "imperial_byzantium") {
-        return "period-imperial";
-      }
+    function periodClass(years, categoryOrCategories) {
+  const cats = Array.isArray(categoryOrCategories)
+    ? categoryOrCategories
+    : (typeof categoryOrCategories === "string" ? [categoryOrCategories] : []);
 
-      var match = years && years.match(/(\d{3,4})/);
-      if (!match) return "period-late";
+  if (cats.includes("imperial_rome_bude") || cats.includes("imperial_byzantium")) {
+    return "period-imperial";
+  }
 
-      var y = parseInt(match[1], 10);
-      if (y < 1000)  return "period-early";
-      if (y < 1300)  return "period-high";
-      if (y < 1800)  return "period-modern";
-      return "period-late";
-    }
+  if (cats.includes("mythisch_traditie") || cats.includes("mythisch-traditie")) {
+    return "mythisch-traditie";
+  }
+
+  const match = years && years.match(/(\d{3,4})/);
+  if (!match) return "period-late";
+
+  const y = parseInt(match[1], 10);
+  if (y < 1000) return "period-early";
+  if (y < 1300) return "period-high";
+  if (y < 1800) return "period-modern";
+  return "period-late";
+}
+
 
     // Lagen (cluster-groepen)
     var layerBurgerlijk = L.markerClusterGroup();
@@ -5039,11 +5077,12 @@ people = dedupePeopleByName(people);
     var layerNieuweTijd = L.markerClusterGroup();
     var layerTheoJacqueline = L.layerGroup();
     var layerUncategorized = L.markerClusterGroup();
+    var layerMythischTraditie = L.markerClusterGroup();
 
   
   function getCategories(p) {
   
-// Nieuwe manier: p.categories = ["imperial-kleef","iberian",...]
+// Nieuwe manier: p.categories = ["imperial_kleef","iberian",...]
   if (Array.isArray(p.categories)) return p.categories;
 
   // Oude manier: p.category = "kings"
@@ -5064,11 +5103,23 @@ layerTheoJacqueline.addLayer(
 layerTheoJacqueline.addLayer(
   L.polyline([josephusCoomans, jacqueline], { color:"#6a0dad", weight:2, dashArray:"4 4" })
 );
+// === VALIDATOR: personen zonder categories ===
+(function validateCategories() {
+  const missing = people.filter(p =>
+    !Array.isArray(p.categories) || p.categories.length === 0
+  );
 
+  if (missing.length === 0) {
+    console.log("✅ Alle personen hebben categories.");
+  } else {
+    console.warn("⚠️ Personen zonder categories (" + missing.length + "):");
+    missing.forEach(p => {
+      console.log("– " + p.name + " (" + (p.years || "geen jaartallen") + ")");
+    });
+  }
+})();
 
-
-    people.forEach(function(p) {
-
+people.forEach(function(p) {
 
 console.log("Onze mensen markers:", layerOnzeMensen.getLayers().length);
       var cats = getCategories(p);
@@ -5077,8 +5128,7 @@ var cats = getCategories(p);
 
 var pClass = cats.includes("onze_mensen_burgerlijke_lijn")
   ? "period-onze-mensen"
-  : periodClass(p.years);
-
+  : periodClass(p.years, cats);
 
       var icon = L.divIcon({
         html: '<div class="circle-icon ' + pClass + '"></div>',
@@ -5167,6 +5217,9 @@ if (cats.includes("nieuwe_tijd")) {
 if (cats.includes("burgerlijk")) {
   layerBurgerlijk.addLayer(marker);
 }
+if (cats.includes("mythisch_traditie")) {
+  layerMythischTraditie.addLayer(marker);
+}
 if (!p.categories || !Array.isArray(p.categories) || p.categories.length === 0) {
   layerUncategorized.addLayer(marker);
 }
@@ -5202,7 +5255,8 @@ if (!p.categories || !Array.isArray(p.categories) || p.categories.length === 0) 
         "Onze mensen – burgerlijke lijn": layerOnzeMensen,
         "Burgerlijke lijnen (stedelijke elite & familie)": layerBurgerlijk,
         "Verbinding Theo & Jacqueline via J. Coomans": layerTheoJacqueline,
-        "Nog te categoriseren": layerUncategorized
+        "Nog te categoriseren": layerUncategorized,
+        "Mythisch traditie": layerMythischTraditie
 
 
       }
